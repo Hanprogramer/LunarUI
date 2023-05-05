@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Silk.NET" Version="2.17.1" />
+      <PackageReference Include="SkiaSharp" Version="2.88.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Condition="$([MSBuild]::IsOSPlatform('Windows'))" Include="..\Lunar.Native.Win32\Lunar.Native.Win32.csproj" />
+      <ProjectReference Include="..\Lunar.Core\Lunar.Core.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+        <DefineConstants>_WINDOWS</DefineConstants>
+    </PropertyGroup>
+
+</Project>

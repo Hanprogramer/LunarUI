@@ -1,0 +1,10 @@
+Lunar.Core/obj/**
+Lunar.Core/bin/**
+Lunar.Native.Win32/obj/**
+Lunar.Native.Win32/bin/**
+Lunar.Runner/bin/**
+Lunar.Runner/obj/**
+Lunar.Scripting/bin/**
+Lunar.Scripting/obj/**
+Lunar/bin/**
+Lunar/obj/**
