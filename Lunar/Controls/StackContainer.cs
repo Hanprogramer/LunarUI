@@ -1,10 +1,11 @@
-﻿namespace Lunar.Controls
+﻿using System.Numerics;
+namespace Lunar.Controls
 {
     public class StackContainer : MultiChildContainer
     {
-        public override void UpdateChildren(double dt)
+        public override void OnResized(Vector2 newSize)
         {
-            base.UpdateChildren(dt);
+            base.OnResized(newSize);
             foreach (var child in Children)
             {
                 child.MeasuredSize = Size;

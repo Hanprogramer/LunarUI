@@ -1,10 +1,11 @@
 ﻿using Lunar.Core;
+using System.Numerics;
 namespace Lunar
 {
     public abstract class Window
     {
         public IApplication Application { get; set; }
-        public Control Control { get; set; }
+        public Control Control { get; set; } = new Control();
         public int Width { get; set; }
         public int Height { get; set; }
         public int X { get; set; }

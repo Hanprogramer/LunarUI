@@ -1,4 +1,5 @@
-﻿using Lunar.Native.Win32;
+﻿using Lunar.Controls;
+using Lunar.Native.Win32;
 namespace Lunar;
 
 public class Application : IApplication
@@ -31,6 +32,11 @@ public class Application : IApplication
         else
         {
             throw new Exception("Unimplemented OS Platform");
+        }
+        
+        foreach (var feature in Features)
+        {
+            feature.OnBeforeApplicationReady(this);
         }
     }
 
@@ -66,6 +72,13 @@ public class Application : IApplication
     public void CreateWindow(String path)
     {
         var win = NativeContext.CreateWindow(Name);
+        var sc = new StackContainer();
+        win.Control = sc;
+        sc.AddChild(new Label()
+        {
+            Text = "Hello World!"
+        });
+        
         win.Ready += () =>
         {
             foreach (var feature in Features)
@@ -88,6 +101,10 @@ public class Application : IApplication
 
     public void Run()
     {
+        foreach (var feature in Features)
+        {
+            feature.OnApplicationReady(this);
+        }
         IsRunning = true;
         while (IsRunning)
         {
@@ -96,18 +113,11 @@ public class Application : IApplication
             {
                 if (Windows[i].IsInitialized)
                 {
-                    // if (Windows[i].IsClosing)
-                    // {
-                    //     RemoveWindow(Windows[i]);
-                    //     break;
-                    // }
                     if(Windows[i].IsRunning)
                         Windows[i].DoUpdate();
                 }
                 else
                     Windows[i].Initialize();
-                
-
             }
 
             if (Windows.Count == 0)

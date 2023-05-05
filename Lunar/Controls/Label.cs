@@ -50,5 +50,11 @@ namespace Lunar.Controls
             TextBound.X = Size.X / 2.0f - size.Width / 2.0f;
             TextBound.Y = Size.Y / 2.0f - size.Height / 2.0f;
         }
+
+        public override void OnResized(Vector2 newSize)
+        {
+            base.OnResized(newSize);
+            RecalculateTextBound();
+        }
     }
 }

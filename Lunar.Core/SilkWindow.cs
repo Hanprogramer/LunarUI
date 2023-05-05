@@ -3,6 +3,7 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using SkiaSharp;
+using System.Numerics;
 using IWindow = Silk.NET.Windowing.IWindow;
 namespace Lunar
 {
@@ -89,9 +90,10 @@ namespace Lunar
             IsReady = true;
             OnReady();
 
-
             // Start rendering thread
             IsRunning = true;
+            Control.Size = new Vector2(Width, Height);
+            Control.Position = Vector2.Zero;
             if (IsMultiThreaded)
                 DoRenderThread();
             else
@@ -115,7 +117,7 @@ namespace Lunar
 
         public void Update(double dt)
         {
-
+            Control.OnUpdate(dt);
         }
 
         public void Render(double dt)
@@ -124,11 +126,8 @@ namespace Lunar
             {
                 InitSkia();
                 gl.Clear(ClearBufferMask.ColorBufferBit);
-                skSurface.Canvas.DrawColor(SKColors.Coral);
-                skSurface.Canvas.DrawRect(32, 32, 200, 200, new SKPaint()
-                {
-                    Color = SKColors.Aquamarine
-                });
+                skSurface.Canvas.DrawColor(SKColors.White);
+                Control.OnRender(skSurface.Canvas);
                 skCtx.Flush();
             }
         }
@@ -178,6 +177,9 @@ namespace Lunar
                 ResizeSkia();
                 if (!IsMultiThreaded)
                     _window.DoRender();
+
+                Control.Size = new Vector2(Width, Height);
+                Control.Position = Vector2.Zero;
             }
         }
 

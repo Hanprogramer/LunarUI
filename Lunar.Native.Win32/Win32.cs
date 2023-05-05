@@ -40,6 +40,11 @@ namespace Lunar.Native.Win32
         static extern bool UpdateWindow(IntPtr hWnd);
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        
+        
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool SetProcessDPIAware();
+        
         public static bool IsUsingDarkTheme()
         {
             try

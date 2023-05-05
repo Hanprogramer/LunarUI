@@ -1,11 +1,12 @@
 ﻿using Lunar.Core;
 using SkiaSharp;
 using System.Collections.ObjectModel;
+using System.Numerics;
 namespace Lunar.Controls
 {
     public class MultiChildContainer : Container
     {
-        public ObservableCollection<Control> Children { get; set; }
+        public ObservableCollection<Control> Children { get; set; } = new();
         
         public delegate void OnChildChangedDelegate(Control child);
         public event OnChildChangedDelegate OnChildAdded;
@@ -29,20 +30,29 @@ namespace Lunar.Controls
             Children.RemoveAt(index);
         }
 
-        public override void UpdateChildren(double dt)
+        public override void OnUpdate(double dt)
         {
-            base.UpdateChildren(dt);
+            base.OnUpdate(dt);
             for(var i = 0; i < Children.Count; i++)
             {
                 Children[i].OnUpdate(dt);
             }
         }
-        public override void RenderChildren(SKCanvas canvas)
+        public override void OnRender(SKCanvas canvas)
         {
-            base.RenderChildren(canvas);
+            base.OnRender(canvas);
             for(var i = 0; i < Children.Count; i++)
             {
                 Children[i].OnRender(canvas);
+            }
+        }
+        
+        public override void OnResized(Vector2 newSize)
+        {
+            base.OnResized(newSize);
+            for(var i = 0; i < Children.Count; i++)
+            {
+                Children[i].OnResized(newSize);
             }
         }
     }

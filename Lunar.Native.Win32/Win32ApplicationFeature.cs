@@ -10,4 +10,10 @@ public class Win32ApplicationFeature : ApplicationFeature
             Win32.ApplyDarkTitleBar(win);
         }
     }
+    public override void OnApplicationReady(IApplication application)
+    {
+        base.OnApplicationReady(application);
+        Win32.SetProcessDPIAware();
+    }
+
 }

@@ -11,5 +11,9 @@
         {
             return new Win32Window(title,w,h,isMultiThreaded);
         }
+        public override double GetScaling()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

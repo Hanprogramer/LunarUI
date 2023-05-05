@@ -20,10 +20,19 @@ namespace Lunar.Core
         /// </summary>
         public Control Parent { get; set; }
 
+        private Vector2 size = new Vector2();
         /// <summary>
         /// Control's Size
         /// </summary>
-        public Vector2 Size { get; set; }
+        public Vector2 Size { get => size;
+            set
+            {
+                if (size == value)
+                    return;
+                OnResized(value);
+                size = value;
+            }
+        }
 
         /// <summary>
         /// Control's Minimum Size
@@ -86,6 +95,6 @@ namespace Lunar.Core
         /// When the control's size changed. Called before changed
         /// </summary>
         /// <param name="newSize"></param>
-        public virtual void OnResized(Vector4 newSize) { }
+        public virtual void OnResized(Vector2 newSize) { }
     }
 }
