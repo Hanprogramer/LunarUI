@@ -1,6 +1,6 @@
 ﻿using Lunar.Core;
+using Lunar.Native;
 using SkiaSharp;
-using System.Numerics;
 namespace Lunar.Controls
 {
     public class Label : Control
@@ -32,7 +32,7 @@ namespace Lunar.Controls
         /// <summary>
         /// The text position and size
         /// </summary>
-        private Vector4 TextBound = new();
+        private Rect TextBound = new();
 
         public override void OnRender(SKCanvas canvas)
         {
@@ -45,8 +45,8 @@ namespace Lunar.Controls
             //TODO: Implement text alignment
             SKRect size = new();
             Paint.MeasureText(Text, ref size);
-            TextBound.Z = size.Width;
-            TextBound.W = size.Height;
+            TextBound.Width = size.Width;
+            TextBound.Height = size.Height;
             TextBound.X = Size.X / 2.0f - size.Width / 2.0f;
             TextBound.Y = Size.Y / 2.0f - size.Height / 2.0f;
         }

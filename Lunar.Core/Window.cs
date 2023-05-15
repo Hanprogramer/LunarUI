@@ -1,5 +1,5 @@
 ﻿using Lunar.Core;
-using System.Numerics;
+using Lunar.Native;
 namespace Lunar
 {
     public abstract class Window

@@ -1,9 +1,10 @@
-﻿using Silk.NET.Core.Contexts;
+﻿using Lunar.Native;
+using Silk.NET.Core.Contexts;
+using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using SkiaSharp;
-using System.Numerics;
 using IWindow = Silk.NET.Windowing.IWindow;
 namespace Lunar
 {
@@ -25,6 +26,8 @@ namespace Lunar
         public int Height { get; set; }
         public int X { get; set; } = 0;
         public int Y { get; set; } = 0;
+        public int MouseX { get; set; } = 0;
+        public int MouseY { get; set; } = 0;
         public bool IsInitialized { get => _window?.IsInitialized ?? false; }
         public bool IsClosing
         {
@@ -71,7 +74,6 @@ namespace Lunar
             _window.Render += Render; 
             _window.Closing += Dispose;
             _window.Resize += vector2D => Resized(vector2D.X, vector2D.Y);
-
             // Control = new StackContainer();
         }
 
@@ -90,6 +92,16 @@ namespace Lunar
             IsReady = true;
             OnReady();
 
+            var input = _window.CreateInput();
+            foreach(var mouse in input.Mice)
+            {
+                mouse.MouseMove += (mouse1, vector2) =>
+                {
+                    MouseX = (int)vector2.X;
+                    MouseY = (int)vector2.Y;
+                };
+            }
+            
             // Start rendering thread
             IsRunning = true;
             Control.Size = new Vector2(Width, Height);

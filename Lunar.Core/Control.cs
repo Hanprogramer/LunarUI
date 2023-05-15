@@ -1,5 +1,5 @@
-﻿using SkiaSharp;
-using System.Numerics;
+﻿using Lunar.Native;
+using SkiaSharp;
 namespace Lunar.Core
 {
     /// <summary>
@@ -29,8 +29,8 @@ namespace Lunar.Core
             {
                 if (size == value)
                     return;
-                OnResized(value);
                 size = value;
+                OnResized(value);
             }
         }
 
@@ -52,12 +52,12 @@ namespace Lunar.Core
         /// <summary>
         /// Control's spacing outside
         /// </summary>
-        public Vector4 Margin { get; set; }
+        public Spacing Margin { get; set; }
 
         /// <summary>
         /// Control's spacing inside
         /// </summary>
-        public Vector4 Padding { get; set; }
+        public Spacing Padding { get; set; }
 
         /// <summary>
         /// Size of the control including padding and margins.
@@ -65,11 +65,11 @@ namespace Lunar.Core
         public Vector2 MeasuredSize
         {
             get => new Vector2(
-                Size.X + Padding.X + Padding.Z + Margin.X + Margin.Z,
-                Size.Y + Padding.Y + Padding.W + Margin.Y + Margin.W);
+                Size.X + Padding.Left + Padding.Right + Margin.Left + Margin.Right,
+                Size.Y + Padding.Top + Padding.Bottom + Margin.Top + Margin.Bottom);
             set => Size = new Vector2(
-                value.X - (Padding.X + Padding.Z + Margin.X + Margin.Z), 
-                value.Y - (Padding.Y + Padding.W + Margin.Y + Margin.W));
+                value.X - (Padding.Left + Padding.Right + Margin.Left + Margin.Right), 
+                value.Y - (Padding.Top + Padding.Bottom + Margin.Top + Margin.Bottom));
         }
 
         /// <summary>
