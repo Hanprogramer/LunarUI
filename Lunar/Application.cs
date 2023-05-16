@@ -1,5 +1,7 @@
 ﻿using Lunar.Controls;
+using Lunar.Core;
 using Lunar.Native.Win32;
+using System.Collections.ObjectModel;
 namespace Lunar;
 
 public class Application : IApplication
@@ -74,9 +76,23 @@ public class Application : IApplication
         var win = NativeContext.CreateWindow(Name);
         var sc = new StackContainer();
         win.Control = sc;
-        sc.AddChild(new Label()
+        sc.AddChild(new BoxContainer()
         {
-            Text = "Hello World!"
+            Children = new ObservableCollection<Control>()
+            {
+                new Label()
+                {
+                    Text = "Hello World! 1"
+                },
+                new Label()
+                {
+                    Text = "Hello World! 2"
+                },
+                new Label()
+                {
+                    Text = "Hello World! 3"
+                }
+            }
         });
         
         win.Ready += () =>

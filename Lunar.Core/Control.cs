@@ -42,7 +42,7 @@ namespace Lunar.Core
         /// <summary>
         /// Control's Position relative to window
         /// </summary>
-        public Vector2 Position { get; set; }
+        public Vector2 Position { get; set; } = new();
 
         /// <summary>
         /// Control's Position relative to parent
@@ -75,7 +75,7 @@ namespace Lunar.Core
         /// <summary>
         /// Control's Weight for sizing inside of containers
         /// </summary>
-        public float Weight = 0;
+        public float Weight = 1;
 
         #endregion
 

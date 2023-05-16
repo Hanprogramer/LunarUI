@@ -47,8 +47,8 @@ namespace Lunar.Controls
             Paint.MeasureText(Text, ref size);
             TextBound.Width = size.Width;
             TextBound.Height = size.Height;
-            TextBound.X = Size.X / 2.0f - size.Width / 2.0f;
-            TextBound.Y = Size.Y / 2.0f - size.Height / 2.0f;
+            TextBound.X = Size.X / 2.0f - size.Width / 2.0f + Position.X;
+            TextBound.Y = Size.Y / 2.0f + size.Height / 2.0f + Position.Y;
         }
 
         public override void OnResized(Vector2 newSize)
