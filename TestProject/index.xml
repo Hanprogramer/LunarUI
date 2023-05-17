@@ -6,24 +6,14 @@
 
     <Content>
         <BoxContainer Orientation="Vertical">
-            <Label Text="Welcome to LunarUI" FontSize="Large" />
-            <Label Text="A truly cross platform UI framework" />
+            <Label Text="Welcome to LunarUI" FontSize="32" />
+            <Label Text="A truly cross platform UI framework so that this text must fit in this long text" />
             <BoxContainer Orientation="Verticals">
                 <Label Text="Documentation" OnClick="onTextClicked" />
                 <Label Text="Join Discord" />
             </BoxContainer>
         </BoxContainer>
     </Content>
-
-    <Script Language="js">
-        var a = "Hello World";
-        a += "2";
-        console.log(a);
-
-        function onTextClicked(){
-        // Do your stuffs
-        }
-    </Script>
 
     <Styles>
         <Style Class="MainTitle">

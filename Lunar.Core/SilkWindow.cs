@@ -5,6 +5,7 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using SkiaSharp;
+using System.Net.Mime;
 using IWindow = Silk.NET.Windowing.IWindow;
 namespace Lunar
 {
@@ -17,11 +18,10 @@ namespace Lunar
             set
             {
                 title = value;
-                if(_window != null)
+                if (_window != null)
                     _window.Title = value;
             }
         }
-        public IApplication Application { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int X { get; set; } = 0;
@@ -31,7 +31,7 @@ namespace Lunar
         public bool IsInitialized { get => _window?.IsInitialized ?? false; }
         public bool IsClosing
         {
-            get => !IsInitialized || !IsRunning || (_window?.IsClosing ?? true); 
+            get => !IsInitialized || !IsRunning || (_window?.IsClosing ?? true);
         }
         public bool IsRunning { get; set; } = false;
         private bool IsReady = false;
@@ -51,10 +51,10 @@ namespace Lunar
         private SKSurface skSurface;
 
         public bool IsMultiThreaded { get; private set; }
-        
-        
 
-        public SilkWindow(string path, string title, int w = 800, int h = 600, bool isMultiThreaded = false)
+
+
+        public SilkWindow(IApplication application, string path, string title, int w = 800, int h = 600, bool isMultiThreaded = false) : base(application)
         {
             Title = title;
             Path = new LunarURI(path);
@@ -72,7 +72,7 @@ namespace Lunar
             });
             _window.Load += Ready;
             _window.Update += Update;
-            _window.Render += Render; 
+            _window.Render += Render;
             _window.Closing += Dispose;
             _window.Resize += vector2D => Resized(vector2D.X, vector2D.Y);
             // Control = new StackContainer();
@@ -94,7 +94,7 @@ namespace Lunar
             OnReady();
 
             var input = _window.CreateInput();
-            foreach(var mouse in input.Mice)
+            foreach (var mouse in input.Mice)
             {
                 mouse.MouseMove += (mouse1, vector2) =>
                 {
@@ -102,18 +102,18 @@ namespace Lunar
                     MouseY = (int)vector2.Y;
                 };
             }
-            
+
             // Set running state
             IsRunning = true;
-            
+
             // Set control size
             Control.Size = new Vector2(Width, Height);
             Control.Position = Vector2.Zero;
-            
+
             // Run window features
             foreach (var f in Features)
                 f.OnWindowReady();
-            
+
             // Start rendering thread
             if (IsMultiThreaded)
                 DoRenderThread();
@@ -150,7 +150,7 @@ namespace Lunar
             {
                 InitSkia();
                 gl.Clear(ClearBufferMask.ColorBufferBit);
-                skSurface.Canvas.DrawColor(SKColors.White);
+                skSurface.Canvas.DrawColor(Application.Theme.Background);
                 Control.OnRender(skSurface.Canvas);
                 // Run window features
                 foreach (var f in Features)

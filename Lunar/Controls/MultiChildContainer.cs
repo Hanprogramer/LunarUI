@@ -59,5 +59,8 @@ namespace Lunar.Controls
         {
             Children.Clear();
         }
+        public MultiChildContainer(Window window) : base(window)
+        {
+        }
     }
 }

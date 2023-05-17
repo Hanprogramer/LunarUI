@@ -2,6 +2,7 @@
 using Lunar.Core;
 using Lunar.Native;
 using Microsoft.ClearScript.Util.Web;
+using Silk.NET.Windowing;
 using System.Xml;
 using System.Xml.Linq;
 namespace Lunar.Scripting
@@ -139,9 +140,11 @@ namespace Lunar.Scripting
                             var control = _registry.GetControl(node.Name);
                             var constructor = control.GetConstructor(new Type[]
                             {
+                                typeof(Window)
                             });
                             var instance = (Control)constructor.Invoke(new object[]
                             {
+                                Window
                             });
                             m.AddChild(instance);
 
@@ -157,6 +160,11 @@ namespace Lunar.Scripting
                                     {
                                         if (Enum.TryParse(prop.PropertyType, attr.Value, out var result))
                                             prop.SetValue(instance, result);
+                                    }
+                                    else if (prop.PropertyType == typeof(float))
+                                    {
+                                        if (float.TryParse(attr.Value, out var f))
+                                            prop.SetValue(instance, f);
                                     }
                                     else
                                         prop.SetValue(instance, attr.Value);

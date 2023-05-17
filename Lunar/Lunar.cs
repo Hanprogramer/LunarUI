@@ -37,4 +37,23 @@
         End,
         Fill
     }
+
+    public static class FontSize
+    {
+        public static float Parse(string val)
+        {
+            switch (val)
+            {
+                case "Small":
+                    return 12;
+                case "Medium":
+                    return 16;
+                case "Large":
+                    return 24;
+                case "ExtraLarge":
+                    return 32;
+            }
+            return float.Parse(val);
+        }
+    }
 }

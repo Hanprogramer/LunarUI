@@ -130,5 +130,8 @@ namespace Lunar.Controls
             }
             base.OnResized(newSize);
         }
+        public BoxContainer(Window window) : base(window)
+        {
+        }
     }
 }

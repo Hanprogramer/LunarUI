@@ -9,7 +9,7 @@ namespace Lunar
         /// Window's Current Filepath
         /// </summary>
         public LunarURI Path { get; set; } = new LunarURI("/"); //TODO: implement setter to load specific path and replace with LunarURI
-        public Control Control { get; set; } = new Control();
+        public Control Control { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public int X { get; set; }
@@ -26,6 +26,10 @@ namespace Lunar
         public event WindowEvent Ready;
         public event WindowEvent Closing;
         public List<WindowFeature> Features = new();
+        public Window(IApplication application)
+        {
+            Application = application;
+        }
         public void OnReady()
         {
             Ready?.Invoke();

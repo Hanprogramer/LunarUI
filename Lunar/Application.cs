@@ -13,7 +13,6 @@ public class Application : IApplication
     public bool IsRunning = false;
     public NativeContext NativeContext;
 
-
     public List<ApplicationFeature> Features;
     public List<Window> Windows;
     public List<Type> WindowFeatures = new();
@@ -58,6 +57,7 @@ public class Application : IApplication
     {
         return ControlRegistry;
     }
+    public Theme Theme { get; set; } = Themes.Dark;
 
     public void AddWindow(Window window)
     {
@@ -80,7 +80,7 @@ public class Application : IApplication
     /// <param name="path"></param>
     public void CreateWindow(string path)
     {
-        var win = NativeContext.CreateWindow(path, Name);
+        var win = NativeContext.CreateWindow(this, path, Name);
         win.Application = this;
         foreach (var windowFeature in WindowFeatures)
         {
@@ -94,7 +94,7 @@ public class Application : IApplication
             });
             win.AddFeature((WindowFeature)obj);
         }
-        var sc = new StackContainer();
+        var sc = new StackContainer(win);
         win.Control = sc;
         
         

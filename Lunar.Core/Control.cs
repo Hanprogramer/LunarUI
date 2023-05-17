@@ -7,7 +7,7 @@ namespace Lunar.Core
     /// </summary>
     public class Control
     {
-
+        protected Window Window { set; get; }
         #region Properties
 
         /// <summary>
@@ -79,6 +79,11 @@ namespace Lunar.Core
 
         #endregion
 
+        public Control(Window window)
+        {
+            Window = window;
+        }
+        
         /// <summary>
         /// Called every update frame
         /// </summary>

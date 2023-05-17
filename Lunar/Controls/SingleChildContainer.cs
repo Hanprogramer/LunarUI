@@ -25,5 +25,8 @@ namespace Lunar.Controls
         {
             Child = null;
         }
+        public SingleChildContainer(Window window) : base(window)
+        {
+        }
     }
 }

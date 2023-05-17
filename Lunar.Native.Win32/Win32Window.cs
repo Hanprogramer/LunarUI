@@ -3,7 +3,7 @@
     public class Win32Window : SilkWindow
     {
         public IntPtr handle;
-        public Win32Window(string path, string title, int w = 800, int h = 600, bool isMultiThreaded = false) : base(path, title, w, h, isMultiThreaded)
+        public Win32Window(IApplication application, string path, string title, int w = 800, int h = 600, bool isMultiThreaded = false) : base(application, path, title, w, h, isMultiThreaded)
         {
             
         }

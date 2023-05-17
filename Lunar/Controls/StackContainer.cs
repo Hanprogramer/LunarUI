@@ -12,5 +12,8 @@ namespace Lunar.Controls
                 child.Position = Position;
             }
         }
+        public StackContainer(Window window) : base(window)
+        {
+        }
     }
 }

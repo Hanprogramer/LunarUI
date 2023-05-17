@@ -6,5 +6,7 @@ namespace Lunar
         public void AddFeature(ApplicationFeature feature);
         public void RemoveFeature(ApplicationFeature feature);
         public IControlRegistry GetControlRegistry();
+        
+        public Theme Theme { get; set; }
     }
 }

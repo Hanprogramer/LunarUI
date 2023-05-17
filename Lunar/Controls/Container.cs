@@ -8,5 +8,8 @@ namespace Lunar.Controls
     public abstract class Container : Control
     {
         public abstract void ClearChildren();
+        protected Container(Window window) : base(window)
+        {
+        }
     }
 }
