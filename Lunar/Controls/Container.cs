@@ -5,7 +5,8 @@ namespace Lunar.Controls
     /// <summary>
     /// Base class for container
     /// </summary>
-    public class Container : Control
+    public abstract class Container : Control
     {
+        public abstract void ClearChildren();
     }
 }

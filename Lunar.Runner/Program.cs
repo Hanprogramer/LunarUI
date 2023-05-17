@@ -6,7 +6,7 @@ var projectDir = @"D:\Programming\C#\Lunar\TestProject";
 Console.WriteLine("Running test project...");
 
 var app = new Application(projectDir, "TestProject");
-app.AddFeature(new XMLScriptingFeature());
+app.AddWindowFeature<XmlScriptingFeature>();
 app.AddFeature(new V8ScriptingFeature());
 app.CreateRootWindow();
 app.Run();

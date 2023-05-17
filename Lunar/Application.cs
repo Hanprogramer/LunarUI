@@ -1,5 +1,6 @@
 ﻿using Lunar.Controls;
 using Lunar.Core;
+using Lunar.Native;
 using Lunar.Native.Win32;
 using System.Collections.ObjectModel;
 namespace Lunar;
@@ -8,20 +9,22 @@ public class Application : IApplication
 {
     public String Name { get; set; }
     public String? Icon { get; set; }
-    public String? Path { get; private set; }
+    public String Path { get; private set; }
     public bool IsRunning = false;
     public NativeContext NativeContext;
 
 
     public List<ApplicationFeature> Features;
     public List<Window> Windows;
+    public List<Type> WindowFeatures = new();
 
-    public Application(String path, String name, String? icon = null)
+    public ControlRegistry ControlRegistry = new ControlRegistry();
+    public Application(string path, string name, string? icon = null)
     {
         Name = name;
         Icon = icon;
-        Features = new();
-        Windows = new();
+        Features = new List<ApplicationFeature>();
+        Windows = new List<Window>();
         Path = path;
 
         LunarURI.SetRootPath(path);
@@ -51,6 +54,10 @@ public class Application : IApplication
     {
         Features.Remove(feature);
     }
+    public IControlRegistry GetControlRegistry()
+    {
+        return ControlRegistry;
+    }
 
     public void AddWindow(Window window)
     {
@@ -71,29 +78,25 @@ public class Application : IApplication
     /// Can be relative or absolute
     /// </summary>
     /// <param name="path"></param>
-    public void CreateWindow(String path)
+    public void CreateWindow(string path)
     {
-        var win = NativeContext.CreateWindow(Name);
+        var win = NativeContext.CreateWindow(path, Name);
+        win.Application = this;
+        foreach (var windowFeature in WindowFeatures)
+        {
+            var constructor = windowFeature.GetConstructor(types: new Type[]
+            {
+                typeof(Window)
+            });
+            var obj = constructor.Invoke(new object[]
+            {
+                win
+            });
+            win.AddFeature((WindowFeature)obj);
+        }
         var sc = new StackContainer();
         win.Control = sc;
-        sc.AddChild(new BoxContainer()
-        {
-            Children = new ObservableCollection<Control>()
-            {
-                new Label()
-                {
-                    Text = "Hello World! 1"
-                },
-                new Label()
-                {
-                    Text = "Hello World! 2"
-                },
-                new Label()
-                {
-                    Text = "Hello World! 3"
-                }
-            }
-        });
+        
         
         win.Ready += () =>
         {
@@ -141,5 +144,9 @@ public class Application : IApplication
                 IsRunning = false;
             }
         }
+    }
+    public void AddWindowFeature<T>() where T: WindowFeature
+    {
+        WindowFeatures.Add(typeof(T));
     }
 }

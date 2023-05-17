@@ -1,3 +1,45 @@
-<Body>
-Welcome to <b>LunarUI!</b>
-</Body>
+<Template>
+    <Includes>
+        <Script Src="./index.js"/>
+        <Xml Src="./componentA.xml"/>/
+    </Includes>
+
+    <Content>
+        <BoxContainer Orientation="Vertical">
+            <Label Text="Welcome to LunarUI" FontSize="Large" />
+            <Label Text="A truly cross platform UI framework" />
+            <BoxContainer Orientation="Verticals">
+                <Label Text="Documentation" OnClick="onTextClicked" />
+                <Label Text="Join Discord" />
+            </BoxContainer>
+        </BoxContainer>
+    </Content>
+
+    <Script Language="js">
+        var a = "Hello World";
+        a += "2";
+        console.log(a);
+
+        function onTextClicked(){
+        // Do your stuffs
+        }
+    </Script>
+
+    <Styles>
+        <Style Class="MainTitle">
+            <Background>White</Background>
+            <TextSize>16</TextSize>
+            <TextColor>@Theme.Colors.Text</TextColor>
+            <States>
+                <State Class="Hover">
+                    <Background>Red</Background>
+                    <TextColor>White</TextColor>
+                </State>
+                <State Class="Active">
+                    <Background>DarkRed</Background>
+                    <TextColor>White</TextColor>
+                </State>
+            </States>
+        </Style>
+    </Styles>
+</Template>

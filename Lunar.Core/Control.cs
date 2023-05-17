@@ -75,7 +75,7 @@ namespace Lunar.Core
         /// <summary>
         /// Control's Weight for sizing inside of containers
         /// </summary>
-        public float Weight = 1;
+        public float Weight { get; set; } = 1;
 
         #endregion
 
@@ -96,5 +96,10 @@ namespace Lunar.Core
         /// </summary>
         /// <param name="newSize"></param>
         public virtual void OnResized(Vector2 newSize) { }
+
+        public void Refresh()
+        {
+            OnResized(Size);
+        }
     }
 }

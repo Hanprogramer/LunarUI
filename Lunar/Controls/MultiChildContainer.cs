@@ -52,8 +52,12 @@ namespace Lunar.Controls
             base.OnResized(newSize);
             for(var i = 0; i < Children.Count; i++)
             {
-                Children[i].OnResized(newSize);
+                Children[i].OnResized(Children[i].Size);
             }
+        }
+        public override void ClearChildren()
+        {
+            Children.Clear();
         }
     }
 }

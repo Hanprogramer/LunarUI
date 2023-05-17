@@ -16,7 +16,6 @@ namespace Lunar.Controls
         public AxisAlignment CrossAxisAlignment { get; set; } = AxisAlignment.Fill;
         public override void OnResized(Vector2 newSize)
         {
-            base.OnResized(newSize);
             var maxWeight = Children.Sum(child => child.Weight);
             switch (Orientation)
             {
@@ -54,6 +53,7 @@ namespace Lunar.Controls
                         foreach (var child in Children)
                         {
                             child.Size.Y = Size.Y;
+                            child.Position.Y = Position.Y;
                         }
                     }
                     else
@@ -107,6 +107,7 @@ namespace Lunar.Controls
                         foreach (var child in Children)
                         {
                             child.Size.X = Size.X;
+                            child.Position.X = Position.X;
                         }
                     }
                     else
@@ -127,6 +128,7 @@ namespace Lunar.Controls
                     break;
                 }
             }
+            base.OnResized(newSize);
         }
     }
 }

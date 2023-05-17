@@ -54,9 +54,10 @@ namespace Lunar
         
         
 
-        public SilkWindow(String title, int w = 800, int h = 600, bool isMultiThreaded = false)
+        public SilkWindow(string path, string title, int w = 800, int h = 600, bool isMultiThreaded = false)
         {
             Title = title;
+            Path = new LunarURI(path);
             Width = w;
             Height = h;
             IsMultiThreaded = isMultiThreaded;
@@ -102,10 +103,18 @@ namespace Lunar
                 };
             }
             
-            // Start rendering thread
+            // Set running state
             IsRunning = true;
+            
+            // Set control size
             Control.Size = new Vector2(Width, Height);
             Control.Position = Vector2.Zero;
+            
+            // Run window features
+            foreach (var f in Features)
+                f.OnWindowReady();
+            
+            // Start rendering thread
             if (IsMultiThreaded)
                 DoRenderThread();
             else
@@ -130,6 +139,9 @@ namespace Lunar
         public void Update(double dt)
         {
             Control.OnUpdate(dt);
+            // Run window features
+            foreach (var f in Features)
+                f.OnWindowUpdate(dt);
         }
 
         public void Render(double dt)
@@ -140,6 +152,9 @@ namespace Lunar
                 gl.Clear(ClearBufferMask.ColorBufferBit);
                 skSurface.Canvas.DrawColor(SKColors.White);
                 Control.OnRender(skSurface.Canvas);
+                // Run window features
+                foreach (var f in Features)
+                    f.OnWindowRender(skSurface.Canvas);
                 skCtx.Flush();
             }
         }
@@ -172,6 +187,9 @@ namespace Lunar
             OnClosing();
             IsReady = false;
             IsRunning = false;
+            // Run window features
+            foreach (var f in Features)
+                f.OnWindowClosing();
         }
 
         public override void Close()

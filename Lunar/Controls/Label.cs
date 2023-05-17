@@ -8,7 +8,7 @@ namespace Lunar.Controls
         public TextAlign TextAlign { get; set; } = TextAlign.Center;
         public ParagraphAlign ParagraphAlign { get; set; } = ParagraphAlign.Center;
 
-        private string text;
+        private string text = "";
         public string Text
         {
             get => text;
@@ -21,7 +21,7 @@ namespace Lunar.Controls
 
         private SKFont? font;
         private SKPaint? paint;
-        
+
         // TODO: Recalc bounds when changed
         public SKFont Font { get => font ?? DefaultFont; set => font = value; }
         public SKPaint Paint { get => paint ?? DefaultPaint; set => paint = value; }
