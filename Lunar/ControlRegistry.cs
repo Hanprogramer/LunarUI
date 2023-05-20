@@ -17,6 +17,7 @@ namespace Lunar.Controls
             Register<Label>();
             Register<BoxContainer>();
             Register<StackContainer>();
+            Register<Image>();
         }
         public Type GetControl(string name)
         {
