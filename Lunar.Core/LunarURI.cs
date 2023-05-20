@@ -38,6 +38,10 @@
         {
             if (value.Equals("/") || value.Equals("\\"))
                 return _rootPath;
+            if (value.StartsWith("res://"))
+            {
+                return System.IO.Path.Join(_rootPath, value.Substring("res://".Length));
+            }
             throw new Exception("Can't parse Lunar URI: " + value);
         }
 

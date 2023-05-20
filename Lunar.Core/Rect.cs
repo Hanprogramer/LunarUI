@@ -5,6 +5,8 @@
         public float Y { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
+        
+        public Vector2 Size { get => new Vector2(Width, Height); }
 
         public Rect(float x, float y, float width, float height)
         {
@@ -12,6 +14,14 @@
             Y = y;
             Width = width;
             Height = height;
+        }
+
+        public Rect(Vector2 pos, Vector2 size)
+        {
+            X = pos.X;
+            Y = pos.Y;
+            Width = size.X;
+            Height = size.Y;
         }
         public Rect()
         {

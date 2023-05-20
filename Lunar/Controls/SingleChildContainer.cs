@@ -25,6 +25,11 @@ namespace Lunar.Controls
         {
             Child = null;
         }
+        public override void ApplyStyles()
+        {
+            base.ApplyStyles();
+            Child.ApplyStyles();
+        }
         public SingleChildContainer(Window window) : base(window)
         {
         }

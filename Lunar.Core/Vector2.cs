@@ -65,5 +65,11 @@ namespace Lunar.Native
         {
             return left.X * right.X + left.Y * right.Y;
         }
+
+        public void Set(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

@@ -1,35 +1,45 @@
 <Template>
     <Includes>
         <Script Src="./index.js"/>
-        <Xml Src="./componentA.xml"/>/
+        <Xml Src="./componentA.xml"/>
     </Includes>
 
     <Content>
-        <BoxContainer Orientation="Vertical">
-            <Label Text="Welcome to LunarUI" FontSize="32" />
-            <Label Text="A truly cross platform UI framework so that this text must fit in this long text" />
-            <BoxContainer Orientation="Verticals">
-                <Label Text="Documentation" OnClick="onTextClicked" />
-                <Label Text="Join Discord" />
+        <BoxContainer Orientation="Vertical" Class="Body">
+            <Image Source="res://LunarUI logo-white.png" ImageFit="Fit" Class="MainTitle" />
+            <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework" />
+            <BoxContainer MainAxisAlignment="Center" CrossAxisAlignment="Center">
+                <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton"/>
+                <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton"/>
+                <Label Text="Join Discord" Class="MainButton" />
             </BoxContainer>
+            <Label Text="End of file"/>
         </BoxContainer>
     </Content>
 
     <Styles>
-        <Style Class="MainTitle">
-            <Background>White</Background>
-            <TextSize>16</TextSize>
-            <TextColor>@Theme.Colors.Text</TextColor>
+        <Style Class="MainTitle" Target="Image">
+            <Background>B369FE</Background>
+            <FontSize>48</FontSize>
+            <Foreground>White</Foreground>
             <States>
-                <State Class="Hover">
+                <State Name="Hover">
                     <Background>Red</Background>
-                    <TextColor>White</TextColor>
+                    <Foreground>White</Foreground>
                 </State>
-                <State Class="Active">
+                <State Name="Active">
                     <Background>DarkRed</Background>
-                    <TextColor>White</TextColor>
+                    <Foreground>White</Foreground>
                 </State>
             </States>
+        </Style>
+
+        <Style Class="MainButton">
+            <Background>B465FB</Background>
+        </Style>
+
+        <Style Class="Body">
+            <Background>2F2F2F</Background>
         </Style>
     </Styles>
 </Template>

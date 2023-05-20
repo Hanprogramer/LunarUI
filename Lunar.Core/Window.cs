@@ -25,7 +25,8 @@ namespace Lunar
         public delegate void WindowEvent();
         public event WindowEvent Ready;
         public event WindowEvent Closing;
-        public List<WindowFeature> Features = new();
+        protected readonly List<WindowFeature> Features = new List<WindowFeature>();
+        public List<Style> Styles = new List<Style>();
         public Window(IApplication application)
         {
             Application = application;

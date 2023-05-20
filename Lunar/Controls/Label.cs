@@ -29,16 +29,16 @@ namespace Lunar.Controls
 
         private SKColor? color = null;
         public SKColor Color { get => color ?? Window.Application.Theme.Foreground; set => color = value; }
-        private float fontSize = 16;
-        public float FontSize
-        {
-            get => fontSize;
-            set
-            {
-                fontSize = value;
-                RecalculateTextBound();
-            }
-        }
+        // private float fontSize = 16;
+        // public override float FontSize
+        // {
+        //     get => fontSize;
+        //     set
+        //     {
+        //         fontSize = value;
+        //         RecalculateTextBound();
+        //     }
+        // }
         /// <summary>
         /// The text position and size
         /// </summary>
@@ -47,8 +47,8 @@ namespace Lunar.Controls
         public override void OnRender(SKCanvas canvas)
         {
             base.OnRender(canvas);
-            Paint.Color = SKColors.White;
-            Font.Size = FontSize;
+            Paint.Color = Foreground ?? Window.Application.Theme.Foreground;
+            Font.Size = FontSize ?? 16;
             canvas.DrawText(Text, TextBound.X, TextBound.Y, Font, Paint);
         }
 
@@ -56,12 +56,14 @@ namespace Lunar.Controls
         {
             //TODO: Implement text alignment
             SKRect size = new();
-            Paint.TextSize = FontSize;
+            Paint.TextSize = FontSize ?? 16;
             Paint.MeasureText(Text, ref size);
             TextBound.Width = size.Width;
             TextBound.Height = size.Height;
             TextBound.X = Position.X + (Size.X / 2.0f) - (size.Width / 2.0f);
             TextBound.Y = Position.Y + (Size.Y / 2.0f) + (size.Height / 2.0f);
+
+            MinSize = TextBound.Size;
         }
 
         public override void OnResized(Vector2 newSize)
@@ -71,6 +73,12 @@ namespace Lunar.Controls
         }
         public Label(Window window) : base(window)
         {
+        }
+
+        public override void SetFontSize(float? value)
+        {
+            base.SetFontSize(value);
+            RecalculateTextBound();
         }
     }
 }

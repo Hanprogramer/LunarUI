@@ -59,6 +59,14 @@ namespace Lunar.Controls
         {
             Children.Clear();
         }
+        public override void ApplyStyles()
+        {
+            base.ApplyStyles();
+            foreach (var child in Children)
+            {
+                child.ApplyStyles();
+            }
+        }
         public MultiChildContainer(Window window) : base(window)
         {
         }
