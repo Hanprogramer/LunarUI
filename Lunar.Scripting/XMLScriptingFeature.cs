@@ -100,6 +100,7 @@ namespace Lunar.Scripting
             isParsing = false;
             await Task.Delay(100);
             Window.Control.Refresh();
+            Window.Control.Refresh();
         }
 
         /// <summary>
@@ -189,6 +190,10 @@ namespace Lunar.Scripting
                     else if (prop.PropertyType == typeof(LunarURI))
                     {
                         prop.SetValue(instance, new LunarURI(attr.Value));
+                    }
+                    else if (prop.PropertyType == typeof(Spacing?))
+                    {
+                        prop.SetValue(instance, Spacing.Parse(attr.Value));
                     }
                     else
                         prop.SetValue(instance, attr.Value);

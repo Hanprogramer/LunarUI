@@ -63,7 +63,9 @@ namespace Lunar.Native
                 return float.Parse(val);
             if (type == typeof(string))
                 return val;
-            
+            if (type == typeof(Spacing))
+                return Spacing.Parse(val);
+
             return null;
         }
         public static SKColor ParseColor(string val)

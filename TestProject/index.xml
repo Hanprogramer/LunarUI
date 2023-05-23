@@ -6,9 +6,9 @@
 
     <Content>
         <BoxContainer Orientation="Vertical" Class="Body">
-            <Image Source="res://LunarUI logo-white.png" ImageFit="Fit" Class="MainTitle" />
+            <Image Source="res://LunarUI logo-white.png" ImageFit="Fit" Class="MainTitle" Weight="1"/>
             <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework" />
-            <BoxContainer MainAxisAlignment="Center" CrossAxisAlignment="Center">
+            <BoxContainer MainAxisAlignment="Center" CrossAxisAlignment="Center" Weight="1">
                 <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton"/>
                 <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton"/>
                 <Label Text="Join Discord" Class="MainButton" />
@@ -36,6 +36,9 @@
 
         <Style Class="MainButton">
             <Background>B465FB</Background>
+            <Padding>16</Padding>
+            <Margin>8</Margin>
+            <BorderRadius>8</BorderRadius>
         </Style>
 
         <Style Class="Body">

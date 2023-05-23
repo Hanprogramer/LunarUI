@@ -27,12 +27,12 @@ namespace Lunar.Controls
                     {
                         child.Position.X = Position.X + x;
                         child.Size.X = Size.X * (child.Weight / totalWeight);
-                        x += child.Size.X;
+                        x += child.MeasuredSize.X;
                     }
                 }
                 else
                 {
-                    var totalWidth = Children.Sum(child => child.Size.X);
+                    var totalWidth = Children.Sum(child => child.MeasuredSize.X);
                     var x = MainAxisAlignment switch
                     {
                         AxisAlignment.Begin => 0,
@@ -41,8 +41,8 @@ namespace Lunar.Controls
                     };
                     foreach (var child in Children)
                     {
-                        child.Position.X = Position.X + x;
-                        x += child.Size.X;
+                        child.Position.X = Position.X + x + child.Margin.Left + child.Padding.Left;
+                        x += child.MeasuredSize.X;
                     }
                 }
                 // Cross Axis Alignment
@@ -80,12 +80,12 @@ namespace Lunar.Controls
                     {
                         child.Position.Y = Position.Y + y;
                         child.Size.Y = Size.Y * (child.Weight / totalWeight);
-                        y += child.Size.Y;
+                        y += child.MeasuredSize.Y;
                     }
                 }
                 else
                 {
-                    var totalHeight = Children.Sum(child => child.Size.Y);
+                    var totalHeight = Children.Sum(child => child.MeasuredSize.Y);
                     var y = MainAxisAlignment switch
                     {
                         AxisAlignment.Begin => 0,
@@ -94,8 +94,8 @@ namespace Lunar.Controls
                     };
                     foreach (var child in Children)
                     {
-                        child.Position.Y = Position.Y + y;
-                        y += child.Size.Y;
+                        child.Position.Y = Position.Y + y + child.Margin.Top + child.Padding.Top;
+                        y += child.MeasuredSize.Y;
                     }
                 }
                 // Cross Axis Alignment
@@ -109,7 +109,7 @@ namespace Lunar.Controls
                 }
                 else
                 {
-                    var maxWidth = Children.Max(child => child.Size.X);
+                    var maxWidth = Children.Max(child => child.MeasuredSize.X);
                     var x = CrossAxisAlignment switch
                     {
                         AxisAlignment.Begin => 0,
