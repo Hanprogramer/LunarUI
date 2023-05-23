@@ -142,7 +142,7 @@ namespace Lunar.Core
         {
             get;
             set;
-        } = 1;
+        } = 0;
 
         #endregion
 
@@ -179,10 +179,16 @@ namespace Lunar.Core
         {
             if (Background != null)
             {
-                canvas.DrawRoundRect(Position.X, Position.Y, Size.X, Size.Y, BorderRadius ?? 0, BorderRadius ?? 0, new SKPaint()
-                {
-                    Color = (SKColor)Background
-                });
+                canvas.DrawRoundRect(
+                    Position.X - Padding.Left,
+                    Position.Y - Padding.Top,
+                    Size.X + Padding.Width,
+                    Size.Y + Padding.Height,
+                    BorderRadius ?? 0, BorderRadius ?? 0,
+                    new SKPaint()
+                    {
+                        Color = (SKColor)Background
+                    });
             }
         }
 
