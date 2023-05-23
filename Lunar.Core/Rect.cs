@@ -1,11 +1,12 @@
 ﻿namespace Lunar.Native
-{public class Rect
+{
+    public class Rect
     {
         public float X { get; set; }
         public float Y { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
-        
+
         public Vector2 Size { get => new Vector2(Width, Height); }
 
         public Rect(float x, float y, float width, float height)
