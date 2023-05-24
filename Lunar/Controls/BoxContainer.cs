@@ -22,11 +22,16 @@ namespace Lunar.Controls
                 if (MainAxisAlignment == AxisAlignment.Fill)
                 {
                     float x = 0;
-                    float totalWeight = Children.Sum(child => child.Weight);
+                    float w = Size.X - Children.Sum(child => child.Weight == 0 ? child.Size.X : 0);
+                    var totalWeight = Children.Sum(
+                        child => child.Weight);
                     foreach (var child in Children)
                     {
-                        child.Position.X = Position.X + x;
-                        child.Size.X = Size.X * (child.Weight / totalWeight);
+                        child.Position.X = Position.X + x + child.Padding.Left + child.Margin.Left;
+                        if (child.Weight == 0)
+                            child.Size.X = child.MinSize?.X ?? 0;
+                        else
+                            child.Size.X = w * (child.Weight / totalWeight) - child.Padding.Width - child.Margin.Width;
                         x += child.MeasuredSize.X;
                     }
                 }
@@ -42,6 +47,7 @@ namespace Lunar.Controls
                     foreach (var child in Children)
                     {
                         child.Position.X = Position.X + x + child.Margin.Left + child.Padding.Left;
+                        child.Size.X = child.MinSize.X;
                         x += child.MeasuredSize.X;
                     }
                 }
@@ -56,7 +62,7 @@ namespace Lunar.Controls
                 }
                 else
                 {
-                    var maxHeight = Children.Max(child => child.Size.Y);
+                    var maxHeight = Children.Max(child => child.MeasuredSize.Y);
                     var y = CrossAxisAlignment switch
                     {
                         AxisAlignment.Begin => 0,
@@ -65,7 +71,7 @@ namespace Lunar.Controls
                     };
                     foreach (var child in Children)
                     {
-                        child.Position.Y = Position.Y + y;
+                        child.Position.Y = Position.Y + y + child.Padding.Top + child.Margin.Top;
                     }
                 }
             }
@@ -75,11 +81,16 @@ namespace Lunar.Controls
                 if (MainAxisAlignment == AxisAlignment.Fill)
                 {
                     float y = 0;
-                    float totalWeight = Children.Sum(child => child.Weight);
+                    float h = Size.Y - Children.Sum(child => child.Weight == 0 ? child.Size.Y : 0);
+                    var totalWeight = Children.Sum(
+                        child => child.Weight);
                     foreach (var child in Children)
                     {
-                        child.Position.Y = Position.Y + y;
-                        child.Size.Y = Size.Y * (child.Weight / totalWeight);
+                        child.Position.Y = Position.Y + y + child.Padding.Top + child.Margin.Top;
+                        if (child.Weight == 0)
+                            child.Size.Y = child.MinSize?.Y ?? 0;
+                        else
+                            child.Size.Y = h * (child.Weight / totalWeight) - child.Padding.Height - child.Margin.Height;
                         y += child.MeasuredSize.Y;
                     }
                 }
@@ -95,6 +106,7 @@ namespace Lunar.Controls
                     foreach (var child in Children)
                     {
                         child.Position.Y = Position.Y + y + child.Margin.Top + child.Padding.Top;
+                        child.Size.Y = child.MinSize.Y;
                         y += child.MeasuredSize.Y;
                     }
                 }
@@ -103,8 +115,8 @@ namespace Lunar.Controls
                 {
                     foreach (var child in Children)
                     {
-                        child.Size.X = Size.X;
-                        child.Position.X = Position.X;
+                        child.Size.X = Size.X - child.Padding.Width - child.Margin.Width;
+                        child.Position.X = Position.X + child.Padding.Left + child.Margin.Left;
                     }
                 }
                 else
@@ -118,7 +130,7 @@ namespace Lunar.Controls
                     };
                     foreach (var child in Children)
                     {
-                        child.Position.X = Position.X + x;
+                        child.Position.X = Position.X + x + child.Padding.Left + child.Margin.Left;
                     }
                 }
             }

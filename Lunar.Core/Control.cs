@@ -28,17 +28,15 @@ namespace Lunar.Core
         /// </summary>
         public Vector2 Size
         {
-            get
-            {
-                if (MinSize == null)
-                    return size;
-                return new Vector2(Math.Max(MinSize.X, size.X), Math.Max(MinSize.Y, size.Y));
-            }
+            get => size;
             set
             {
-                if (size == value)
-                    return;
                 size = value;
+                if (MinSize != null)
+                {
+                    size.X = Math.Max(size.X, MinSize.X);
+                    size.Y = Math.Max(size.Y, MinSize.Y);
+                }
                 OnResized(value);
             }
         }
@@ -128,11 +126,11 @@ namespace Lunar.Core
         public Vector2 MeasuredSize
         {
             get => new Vector2(
-                Size.X + Padding.Left + Padding.Right + Margin.Left + Margin.Right,
-                Size.Y + Padding.Top + Padding.Bottom + Margin.Top + Margin.Bottom);
+                Size.X + Padding.Width + Margin.Width,
+                Size.Y + Padding.Height + Margin.Height);
             set => Size = new Vector2(
-                value.X - (Padding.Left + Padding.Right + Margin.Left + Margin.Right),
-                value.Y - (Padding.Top + Padding.Bottom + Margin.Top + Margin.Bottom));
+                value.X - Padding.Width - Margin.Width,
+                value.Y - Padding.Height - Margin.Height);
         }
 
         /// <summary>
@@ -190,6 +188,18 @@ namespace Lunar.Core
                         Color = (SKColor)Background
                     });
             }
+            // if(HasClass("Debug") || HasClass("MainButton"))
+            // Debugging rect
+            // canvas.DrawRect(
+            //     Position.X - Padding.Left - Margin.Left,
+            //     Position.Y - Padding.Left - Margin.Left,
+            //     MeasuredSize.X,
+            //     MeasuredSize.Y,
+            //     new SKPaint()
+            //     {
+            //         Color = SKColors.Red,
+            //         IsStroke = true
+            //     });
         }
 
         /// <summary>
@@ -207,6 +217,11 @@ namespace Lunar.Core
         public virtual void SetFontSize(float? value)
         {
             fontSize = value;
+        }
+
+        public bool HasClass(string val)
+        {
+            return ClassList.Contains(val);
         }
     }
 }

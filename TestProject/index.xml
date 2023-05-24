@@ -5,15 +5,14 @@
     </Includes>
 
     <Content>
-        <BoxContainer Orientation="Vertical" Class="Body">
+        <BoxContainer Orientation="Vertical" Class="Body" MainAxisAlignment="Fill" CrossAxisAlignment="Fill" Weight="1">
             <Image Source="res://LunarUI logo-white.png" ImageFit="Fit" Class="MainTitle" Weight="1"/>
-            <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework" />
-            <BoxContainer MainAxisAlignment="Center" CrossAxisAlignment="Center" Weight="1">
+            <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework" Class="MainSubTitle"/>
+            <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center" Weight="1">
                 <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton"/>
                 <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton"/>
                 <Label Text="Join Discord" Class="MainButton" />
             </BoxContainer>
-            <Label Text="End of file"/>
         </BoxContainer>
     </Content>
 
@@ -36,9 +35,13 @@
 
         <Style Class="MainButton">
             <Background>B465FB</Background>
-            <Padding>16</Padding>
+            <Padding>24</Padding>
             <Margin>8</Margin>
             <BorderRadius>8</BorderRadius>
+        </Style>
+
+        <Style Class="MainSubTitle">
+            <FontSize>24</FontSize>
         </Style>
 
         <Style Class="Body">

@@ -203,12 +203,12 @@ namespace Lunar
             Height = h;
             if (IsReady)
             {
-                gl?.Viewport(0, 0, (uint)Width, (uint)Height);
+                //gl?.Viewport(0, 0, (uint)Width, (uint)Height);
                 ResizeSkia();
                 if (!IsMultiThreaded)
                     _window.DoRender();
 
-                Control.Size = new Vector2(Width, Height);
+                Control.Size = new Vector2(Width-1, Height-1);
                 Control.Position = Vector2.Zero;
             }
         }
