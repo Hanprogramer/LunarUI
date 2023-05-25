@@ -1,11 +1,11 @@
 ﻿using Silk.NET.Maths;
 namespace Lunar.Native
 {
-    public class Vector2
+    public struct Vector2
     {
         public static readonly Vector2 Zero = new Vector2();
         public static readonly Vector2 One = new Vector2(1);
-        
+
         public float X { get; set; }
         public float Y { get; set; }
         public Vector2()
@@ -61,15 +61,35 @@ namespace Lunar.Native
             return vector * scalar;
         }
 
+        public static bool operator ==(Vector2 a, Vector2 b)
+        {
+            return a.Equals(b);
+        }
+        public static bool operator !=(Vector2 a, Vector2 b)
+        {
+            return !(a == b);
+        }
         public static float DotProduct(Vector2 left, Vector2 right)
         {
             return left.X * right.X + left.Y * right.Y;
         }
 
-        public void Set(float x, float y)
+        public override bool Equals(object? obj)
         {
-            X = x;
-            Y = y;
+            if (obj is Vector2 v)
+            {
+                return X == v.X && Y == v.Y;
+            }
+            return false;
+        }
+
+        public Vector2 WithX(float x)
+        {
+            return new Vector2(x, Y);
+        }
+        public Vector2 WithY(float y)
+        {
+            return new Vector2(X, y);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Lunar.Core
             set
             {
                 size = value;
-                if (MinSize != null)
+                if (MinSize != Vector2.Zero)
                 {
                     size.X = Math.Max(size.X, MinSize.X);
                     size.Y = Math.Max(size.Y, MinSize.Y);
@@ -44,7 +44,7 @@ namespace Lunar.Core
         /// <summary>
         /// Control's Minimum Size
         /// </summary>
-        public Vector2? MinSize
+        public Vector2 MinSize
         {
             get;
             set;

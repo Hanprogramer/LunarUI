@@ -64,7 +64,7 @@ namespace Lunar.Controls
             TextBound.Y = Position.Y + (Size.Y / 2.0f) + (size.Height / 2.0f);
 
             MinSize = TextBound.Size;
-            MinSize.Y += 8;
+            MinSize = new Vector2(MinSize.X, MinSize.Y + 8);
         }
 
         public override void OnResized(Vector2 newSize)
