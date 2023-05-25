@@ -1,4 +1,5 @@
-﻿using Lunar.Native;
+﻿using Lunar.Controls;
+using Lunar.Native;
 using Silk.NET.Core.Contexts;
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -98,6 +99,8 @@ namespace Lunar
                 {
                     MouseX = (int)vector2.X;
                     MouseY = (int)vector2.Y;
+                    var ev = new MouseEvent();
+                    Control.OnMouseMove(ref ev, MouseX, MouseY);
                 };
             }
 

@@ -225,19 +225,19 @@ namespace Lunar.Scripting
         private void ParseStyleNodes(XmlNode node, in List<Style> styles)
         {
             var style = new Style();
-            if (node.HasChildNodes)
-            {
-                foreach (XmlNode childNode in node.ChildNodes)
-                {
-                    ParseStyleProperties(childNode, ref style);
-                }
-            }
             foreach (XmlAttribute attr in node.Attributes)
             {
                 if (attr.Name == "Class")
                     style.ClassName = attr.Value;
                 if (attr.Name == "Target")
                     style.Target = attr.Value;
+            }
+            if (node.HasChildNodes)
+            {
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    ParseStyleProperties(childNode, ref style);
+                }
             }
             styles.Add(style);
         }

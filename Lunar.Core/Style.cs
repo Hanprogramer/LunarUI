@@ -27,7 +27,16 @@ namespace Lunar.Native
 
         public void AddState(string state, Style style)
         {
-            _states[state] = style;
+            var val = style;
+            val.Target = Target;
+            val.ClassName = ClassName;
+            _states[state] = val;
+        }
+        public Style? GetStateOrNull(string state)
+        {
+            if (_states.TryGetValue(state, out var result))
+                return result;
+            return null;
         }
         public void Apply(in Control control)
         {

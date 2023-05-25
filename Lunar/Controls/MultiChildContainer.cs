@@ -67,6 +67,14 @@ namespace Lunar.Controls
                 child.ApplyStyles();
             }
         }
+        public override void OnMouseMove(ref MouseEvent e, float x, float y)
+        {
+            foreach (var child in Children)
+            {
+                child.OnMouseMove(ref e, x,y);
+            }
+            base.OnMouseMove(ref e, x, y);
+        }
         public MultiChildContainer(Window window) : base(window)
         {
         }

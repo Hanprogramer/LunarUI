@@ -10,6 +10,8 @@
             <Image Source="res://LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1" />
             <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework"
                 Class="MainSubTitle" Weight="0.3" />
+            <Label Text="Supports hot reload 🔥 🌐 🍪 🍕 🚀"
+                Class="MainSubTitle" Weight="0.3" />
             <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center"
                 Weight="1">
                 <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton" />
@@ -29,23 +31,22 @@
             </Background>
             <FontSize>48</FontSize>
             <Foreground>White</Foreground>
+        </Style>
+
+        <Style Class="MainButton" Target="Label">
+            <Background>B465FB</Background>
+            <Padding>16</Padding>
+            <Margin>8</Margin>
+            <BorderRadius>8</BorderRadius>
             <States>
                 <State Name="Hover">
-                    <Background>Red</Background>
-                    <Foreground>White</Foreground>
+                    <Background>c27cff</Background>
                 </State>
                 <State Name="Active">
                     <Background>DarkRed</Background>
                     <Foreground>White</Foreground>
                 </State>
             </States>
-        </Style>
-
-        <Style Class="MainButton">
-            <Background>B465FB</Background>
-            <Padding>16</Padding>
-            <Margin>8</Margin>
-            <BorderRadius>8</BorderRadius>
         </Style>
 
         <Style Class="MainSubTitle">
