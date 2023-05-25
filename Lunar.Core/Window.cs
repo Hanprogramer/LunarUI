@@ -10,10 +10,8 @@ namespace Lunar
         /// </summary>
         public LunarURI Path { get; set; } = new LunarURI("/"); //TODO: implement setter to load specific path and replace with LunarURI
         public Control Control { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public Vector2 Size { get; set; }
+        public Vector2 Position { get; set; }
         public bool IsInitialized { get; }
         public bool IsClosing { get; }
         public bool IsRunning { get; set; }

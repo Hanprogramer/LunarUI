@@ -6,6 +6,7 @@ using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using SkiaSharp;
 using System.Net.Mime;
+using Exception = System.Exception;
 using IWindow = Silk.NET.Windowing.IWindow;
 namespace Lunar
 {
@@ -22,10 +23,8 @@ namespace Lunar
                     _window.Title = value;
             }
         }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public int X { get; set; } = 0;
-        public int Y { get; set; } = 0;
+        public Vector2 Size { get; set; }
+        public Vector2 Position { get; set; }
         public int MouseX { get; set; } = 0;
         public int MouseY { get; set; } = 0;
         public bool IsInitialized { get => _window?.IsInitialized ?? false; }
@@ -58,8 +57,7 @@ namespace Lunar
         {
             Title = title;
             Path = new LunarURI(path);
-            Width = w;
-            Height = h;
+            Size = new Vector2(w, h);
             IsMultiThreaded = isMultiThreaded;
             //Silk.NET.Windowing.Sdl.SdlWindowing.Use();
             _window = Silk.NET.Windowing.Window.Create(WindowOptions.Default with
@@ -107,7 +105,7 @@ namespace Lunar
             IsRunning = true;
 
             // Set control size
-            Control.Size = new Vector2(Width, Height);
+            Control.Size = Size;
             Control.Position = Vector2.Zero;
 
             // Run window features
@@ -199,8 +197,7 @@ namespace Lunar
 
         public void Resized(int w, int h)
         {
-            Width = w;
-            Height = h;
+            Size = new Vector2(w, h);
             if (IsReady)
             {
                 //gl?.Viewport(0, 0, (uint)Width, (uint)Height);
@@ -208,7 +205,7 @@ namespace Lunar
                 if (!IsMultiThreaded)
                     _window.DoRender();
 
-                Control.Size = new Vector2(Width-1, Height-1);
+                Control.Size = Size;
                 Control.Position = Vector2.Zero;
             }
         }
@@ -223,7 +220,7 @@ namespace Lunar
             }
             var old = skSurface;
 
-            var beRenderTarget = new GRBackendRenderTarget(Width, Height, 0, 0, _fbi);
+            var beRenderTarget = new GRBackendRenderTarget((int)Size.X, (int)Size.Y, 0, 0, _fbi);
             lock (locker)
             {
                 // Recreate the window surface

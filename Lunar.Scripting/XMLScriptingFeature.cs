@@ -12,6 +12,8 @@ namespace Lunar.Scripting
         private readonly FileSystemWatcher _watcher;
         private bool isParsing = false;
 
+        private StyleParser StyleParser;
+
         public XmlScriptingFeature(Window window) : base(window)
         {
             _watcher = new FileSystemWatcher();
@@ -21,6 +23,7 @@ namespace Lunar.Scripting
             base.OnWindowReady();
 
             _registry = (ControlRegistry)Window.Application.GetControlRegistry();
+            StyleParser = new StyleParser(_registry);
             var path = Window.Path.ActualPath;
             var lastRead = DateTime.MinValue;
             _watcher.Filter = "*.xml";
@@ -267,7 +270,7 @@ namespace Lunar.Scripting
             else
             {
                 // Parse Regular Properties
-                style.Set(node.Name, node.InnerText);
+                style.Set(node.Name, StyleParser.ParseValueNode(node));
             }
         }
 

@@ -63,7 +63,7 @@ namespace Lunar.Native.Win32
             var val = 1;
             DwmSetWindowAttribute(window.handle, DwmWindowAttribute.UseImmersiveDarkMode, ref val, 4);
             UpdateWindow(window.handle);
-            MoveWindow(window.handle, window.X, window.Y, window.Width, window.Height, true);
+            MoveWindow(window.handle, (int)window.Position.X, (int)window.Position.Y, (int)window.Size.X, (int)window.Size.Y, true);
         }
     }
 }

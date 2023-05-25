@@ -85,7 +85,7 @@ namespace Lunar.Core
             set;
         }
 
-        public SKColor? Background
+        public Fill? Background
         {
             get;
             set;
@@ -117,8 +117,6 @@ namespace Lunar.Core
                 ApplyStyles();
             }
         }
-
-        private SKPaint? paint;
 
         public ObservableCollection<string> ClassList = new ObservableCollection<string>();
 
@@ -179,16 +177,12 @@ namespace Lunar.Core
         {
             if (Background == null)
                 return;
-            if (paint == null)
-                paint = new SKPaint();
-            paint.Color = (SKColor)Background;
-            canvas.DrawRoundRect(
+            Background.OnDraw(canvas,
                 Position.X - Padding.Left,
                 Position.Y - Padding.Top,
                 Size.X + Padding.Width,
                 Size.Y + Padding.Height,
-                BorderRadius ?? 0, BorderRadius ?? 0,
-                paint);
+                BorderRadius ?? 0);
             // if(HasClass("Debug") || HasClass("MainButton"))
             // Debugging rect
             // canvas.DrawRect(
@@ -207,7 +201,10 @@ namespace Lunar.Core
         /// When the control's size changed. Called before changed
         /// </summary>
         /// <param name="newSize"></param>
-        public virtual void OnResized(Vector2 newSize) { }
+        public virtual void OnResized(Vector2 newSize)
+        {
+            Background?.OnResize(Position, newSize);
+        }
 
         public void Refresh()
         {

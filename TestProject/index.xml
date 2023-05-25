@@ -1,16 +1,19 @@
 <Template>
     <Includes>
-        <Script Src="./index.js"/>
-        <Xml Src="./componentA.xml"/>
+        <Script Src="./index.js" />
+        <Xml Src="./componentA.xml" />
     </Includes>
 
     <Content>
-        <BoxContainer Orientation="Vertical" Class="Body" MainAxisAlignment="Fill" CrossAxisAlignment="Fill" Weight="1">
-            <Image Source="res://LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1"/>
-            <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework" Class="MainSubTitle" Weight="0.3"/>
-            <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center" Weight="1">
-                <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton"/>
-                <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton"/>
+        <BoxContainer Orientation="Vertical" Class="Body" MainAxisAlignment="Fill"
+            CrossAxisAlignment="Fill" Weight="1">
+            <Image Source="res://LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1" />
+            <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework"
+                Class="MainSubTitle" Weight="0.3" />
+            <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center"
+                Weight="1">
+                <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton" />
+                <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton" />
                 <Label Text="Join Discord" Class="MainButton" />
             </BoxContainer>
         </BoxContainer>
@@ -18,7 +21,14 @@
 
     <Styles>
         <Style Class="MainTitle" Target="Image">
-            <Background>B369FE</Background>
+            <Background>
+                <LinearGradientFill Direction="-90">
+                    <LinearGradientColor Position="0">Red</LinearGradientColor>
+                    <LinearGradientColor Position="1">Black</LinearGradientColor>
+                    <!-- <LinearGradientColor Position="0">BB28BE</LinearGradientColor>
+                    <LinearGradientColor Position="1">B369FE</LinearGradientColor> -->
+                </LinearGradientFill>
+            </Background>
             <FontSize>48</FontSize>
             <Foreground>White</Foreground>
             <States>
@@ -35,7 +45,7 @@
 
         <Style Class="MainButton">
             <Background>B465FB</Background>
-            <Padding>24</Padding>
+            <Padding>16</Padding>
             <Margin>8</Margin>
             <BorderRadius>8</BorderRadius>
         </Style>
