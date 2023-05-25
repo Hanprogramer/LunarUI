@@ -1,4 +1,5 @@
-﻿namespace Lunar
+﻿global using System.Numerics;
+namespace Lunar
 {
     public class Lunar
     {
