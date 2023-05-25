@@ -118,6 +118,8 @@ namespace Lunar.Core
             }
         }
 
+        private SKPaint? paint;
+
         public ObservableCollection<string> ClassList = new ObservableCollection<string>();
 
         /// <summary>
@@ -175,19 +177,18 @@ namespace Lunar.Core
         /// <param name="canvas">What to draw to screen</param>
         public virtual void OnRender(SKCanvas canvas)
         {
-            if (Background != null)
-            {
-                canvas.DrawRoundRect(
-                    Position.X - Padding.Left,
-                    Position.Y - Padding.Top,
-                    Size.X + Padding.Width,
-                    Size.Y + Padding.Height,
-                    BorderRadius ?? 0, BorderRadius ?? 0,
-                    new SKPaint()
-                    {
-                        Color = (SKColor)Background
-                    });
-            }
+            if (Background == null)
+                return;
+            if (paint == null)
+                paint = new SKPaint();
+            paint.Color = (SKColor)Background;
+            canvas.DrawRoundRect(
+                Position.X - Padding.Left,
+                Position.Y - Padding.Top,
+                Size.X + Padding.Width,
+                Size.Y + Padding.Height,
+                BorderRadius ?? 0, BorderRadius ?? 0,
+                paint);
             // if(HasClass("Debug") || HasClass("MainButton"))
             // Debugging rect
             // canvas.DrawRect(
