@@ -8,6 +8,9 @@ namespace Lunar.Native
         private SKPaint _paint;
         private SKShader _shader;
         private SKRect rect;
+
+        private SKColor[] _colors;
+        private float[]? _points;
         /// <summary>
         /// The gradient direction in degrees
         /// </summary>
@@ -22,6 +25,8 @@ namespace Lunar.Native
                 else
                     throw new Exception("LinearGradientFill can only have values of LinearGradientColor");
             }
+            _colors = Values.Select(color => color.Color).ToArray();
+            _points = Values.Select(color => color.Position).ToArray();
             _paint = new SKPaint();
         }
 
@@ -38,13 +43,11 @@ namespace Lunar.Native
             var mx = newSize.X / 2;
             var my = newSize.Y / 2;
             var angle = (Direction * MathF.PI) / 180f;
-            var startPoint = new SKPoint(rect.MidX - MathF.Cos(angle) * mx, rect.MidY - MathF.Sin(angle) * my);
-            var endPoint = new SKPoint(rect.MidX + MathF.Cos(angle) * mx, rect.MidY + MathF.Sin(angle) * my);
             _shader = SKShader.CreateLinearGradient(
-                startPoint,
-                endPoint,
-                Values.Select(color => color.Color).ToArray(),
-                Values.Select(color => color.Position).ToArray(),
+                new SKPoint(rect.MidX - MathF.Cos(angle) * mx, rect.MidY - MathF.Sin(angle) * my),
+                new SKPoint(rect.MidX + MathF.Cos(angle) * mx, rect.MidY + MathF.Sin(angle) * my),
+                _colors,
+                _points,
                 SKShaderTileMode.Clamp);
             _paint.Shader = _shader;
         }

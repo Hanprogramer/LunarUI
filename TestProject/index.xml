@@ -22,11 +22,9 @@
     <Styles>
         <Style Class="MainTitle" Target="Image">
             <Background>
-                <LinearGradientFill Direction="-90">
-                    <LinearGradientColor Position="0">Red</LinearGradientColor>
-                    <LinearGradientColor Position="1">Black</LinearGradientColor>
-                    <!-- <LinearGradientColor Position="0">BB28BE</LinearGradientColor>
-                    <LinearGradientColor Position="1">B369FE</LinearGradientColor> -->
+                <LinearGradientFill Direction="90">
+                    <LinearGradientColor Position="0">BB28BE</LinearGradientColor>
+                    <LinearGradientColor Position="1">B369FE</LinearGradientColor>
                 </LinearGradientFill>
             </Background>
             <FontSize>48</FontSize>
