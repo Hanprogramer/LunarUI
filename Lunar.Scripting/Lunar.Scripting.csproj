@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.ClearScript.V8" Version="7.4.1" />
+      <PackageReference Include="Svg.Skia" Version="0.6.0-preview8.2" />
     </ItemGroup>
 
 </Project>

@@ -12,4 +12,8 @@
       <ProjectReference Include="..\Lunar\Lunar.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Svg.Skia" Version="0.6.0-preview8.2" />
+    </ItemGroup>
+
 </Project>
