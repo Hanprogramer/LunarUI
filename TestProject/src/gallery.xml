@@ -1,0 +1,18 @@
+<Template>
+    <Content>
+        <BoxContainer Orientation="Vertical" Class="Body" MainAxisAlignment="Begin"
+            CrossAxisAlignment="Fill" Weight="1">
+            <Image Source="res://LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1" />
+            <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework"
+                Class="MainSubTitle" Weight="0.3" />
+            <Label Text="Supports hot reload"
+                Class="MainSubTitle" Weight="0.3" />
+            <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center"
+                Weight="1">
+                <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton" />
+                <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton" />
+                <Label Text="Join Discord" Class="MainButton" />
+            </BoxContainer>
+        </BoxContainer>
+    </Content>
+</Template>

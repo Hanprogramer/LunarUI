@@ -1,0 +1,17 @@
+<Styles>
+    <Style Target="Button">
+        <Background>B465FB</Background>
+        <Padding>16</Padding>
+        <Margin>8</Margin>
+        <BorderRadius>8</BorderRadius>
+        <States>
+            <State Name="Hover">
+                <Background>c27cff</Background>
+            </State>
+            <State Name="Active">
+                <Background>DarkRed</Background>
+                <Foreground>White</Foreground>
+            </State>
+        </States>
+    </Style>
+</Styles>

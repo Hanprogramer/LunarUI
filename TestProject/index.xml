@@ -1,4 +1,6 @@
 <Template>
+    <Title>Welcome to LunarUI!</Title>
+    <Icon Path="res://assets/win/icon.ico" OS="Windows"/>
     <Includes>
         <Script Src="./index.js" />
         <Xml Src="./componentA.xml" />
@@ -7,16 +9,17 @@
     <Content>
         <BoxContainer Orientation="Vertical" Class="Body" MainAxisAlignment="Fill"
             CrossAxisAlignment="Fill" Weight="1">
-            <Image Source="res://LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1" />
+            <Image Source="res://assets/LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1" />
             <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework"
                 Class="MainSubTitle" Weight="0.3" />
-            <Label Text="Supports hot reload 🔥 🌐 🍪 🍕 🚀"
+            <Label Text="Supports hot reload"
                 Class="MainSubTitle" Weight="0.3" />
             <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center"
                 Weight="1">
                 <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton" />
                 <Label Text="Visit Website" OnClick="onTextClicked" Class="MainButton" />
                 <Label Text="Join Discord" Class="MainButton" />
+                <Label Text="Gallery" Class="MainButton"/>
             </BoxContainer>
         </BoxContainer>
     </Content>
@@ -42,8 +45,8 @@
                 <State Name="Hover">
                     <Background>c27cff</Background>
                 </State>
-                <State Name="Active">
-                    <Background>DarkRed</Background>
+                <State Name="Clicked">
+                    <Background>9447d8</Background>
                     <Foreground>White</Foreground>
                 </State>
             </States>
