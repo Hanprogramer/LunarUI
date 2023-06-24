@@ -237,34 +237,53 @@ namespace Lunar.Core
         /// <summary>
         /// Called when mouse is moved
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public virtual void OnMouseMove(ref MouseEvent e, float x, float y)
+        /// <param name="e"></param>
+        /// <param name="position"></param>
+        public virtual void OnMouseMove(ref MouseEvent e, Vector2 position)
         {
             if (e.Handled)
             {
-                State = "";
                 return;
             }
-            if (x > Position.X - Padding.Left && x < Position.X + Size.X + Padding.Right &&
-                y > Position.Y - Padding.Top && y < Position.Y + Size.Y + Padding.Bottom)
+            if (position.X > Position.X - Padding.Left && position.X < Position.X + Size.X + Padding.Right &&
+                position.Y > Position.Y - Padding.Top && position.Y < Position.Y + Size.Y + Padding.Bottom)
             {
-                State = "Hover";
+                if (State == "")
+                    State = "Hover";
                 e.Handled = true;
             }
             else
             {
-                State = "";
+                if (State == "Hover")
+                    State = "";
             }
         }
 
         /// <summary>
         /// Called when mouse button is pressed and released
         /// </summary>
+        /// <param name="ev"></param>
         /// <param name="button"></param>
-        public virtual void OnMousePressed(int button)
+        /// <param name="pressed"></param>
+        /// <param name="position"></param>
+        public virtual void OnMouseButton(ref MouseEvent ev, MouseButton button, bool pressed, Vector2 position)
         {
+            if (ev.Handled)
+                return;
 
+            if (position.X > Position.X - Padding.Left && position.X < Position.X + Size.X + Padding.Right &&
+                position.Y > Position.Y - Padding.Top && position.Y < Position.Y + Size.Y + Padding.Bottom)
+            {
+                State = pressed ? "Clicked" : "Hover";
+                ev.Handled = true;
+            }
+            else
+            {
+                if (!pressed)
+                {
+                    State = "";
+                }
+            }
         }
 
         public void Refresh()

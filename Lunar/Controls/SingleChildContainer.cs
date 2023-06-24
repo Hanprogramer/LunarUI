@@ -30,10 +30,16 @@ namespace Lunar.Controls
             base.ApplyStyles();
             Child?.ApplyStyles();
         }
-        public override void OnMouseMove(ref MouseEvent e, float x, float y)
+        public override void OnMouseMove(ref MouseEvent e, Vector2 position)
         {
-            Child?.OnMouseMove(ref e,x,y);
-            base.OnMouseMove(ref e,x, y);
+            Child?.OnMouseMove(ref e,position);
+            base.OnMouseMove(ref e,position);
+        }
+
+        public override void OnMouseButton(ref MouseEvent ev, MouseButton button, bool pressed, Vector2 position)
+        {
+            base.OnMouseButton(ref ev, button, pressed, position);
+            Child?.OnMouseButton(ref ev, button, pressed, position);
         }
         public SingleChildContainer(Window window) : base(window)
         {
