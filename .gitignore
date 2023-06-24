@@ -8,3 +8,5 @@ Lunar.Scripting/bin/**
 Lunar.Scripting/obj/**
 Lunar/bin/**
 Lunar/obj/**
+
+.vs/**
