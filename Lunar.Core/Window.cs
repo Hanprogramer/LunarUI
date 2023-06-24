@@ -12,6 +12,7 @@ namespace Lunar
         public Control Control { get; set; }
         public Vector2 Size { get; set; }
         public Vector2 Position { get; set; }
+        public abstract string Title { get; set; }
         public bool IsInitialized { get; }
         public bool IsClosing { get; }
         public bool IsRunning { get; set; }
@@ -68,5 +69,7 @@ namespace Lunar
             }
             throw new Exception("Feature not found!");
         }
+
+        public abstract void SetIcon(string path);
     }
 }

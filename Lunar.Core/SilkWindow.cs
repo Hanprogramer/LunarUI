@@ -1,11 +1,13 @@
 ﻿using Lunar.Controls;
 using Lunar.Native;
+using Silk.NET.Core;
 using Silk.NET.Core.Contexts;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 using SkiaSharp;
+using StbImageSharp;
 using System.Net.Mime;
 using Exception = System.Exception;
 using IWindow = Silk.NET.Windowing.IWindow;
@@ -14,13 +16,13 @@ namespace Lunar
 {
     public class SilkWindow : Window
     {
-        private string title = "Window.Title";
-        public string Title
+        private string _title = "Window.Title";
+        public override string Title
         {
-            get => title;
+            get => _title;
             set
             {
-                title = value;
+                _title = value;
                 if (_window != null)
                     _window.Title = value;
             }
@@ -107,9 +109,9 @@ namespace Lunar
                     MouseX = (int)mouse1.Position.X;
                     MouseY = (int)mouse1.Position.Y;
                     var ev = new MouseEvent();
-                    Control.OnMouseButton(ref ev, 
-                        (MouseButton)Enum.Parse(typeof(MouseButton), button.ToString()), 
-                        true, 
+                    Control.OnMouseButton(ref ev,
+                        (MouseButton)Enum.Parse(typeof(MouseButton), button.ToString()),
+                        true,
                         new Vector2(MouseX, MouseY));
                 };
 
@@ -220,7 +222,21 @@ namespace Lunar
         }
         public override void SetIcon(string path)
         {
+            if (!File.Exists(path))
+            {
+                _window?.SetDefaultIcon();
+                return;
+            }
+            var file = File.Open(path, FileMode.Open);
+            var image = ImageResult.FromStream(file);
+            
+            RawImage im = new RawImage(image.Width, image.Height, image.Data);
 
+            _window?.SetWindowIcon(new RawImage[]
+            {
+                im
+            });
+            file.Close();
         }
 
         public void Resized(int w, int h)
