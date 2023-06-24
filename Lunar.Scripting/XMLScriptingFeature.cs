@@ -122,6 +122,18 @@ namespace Lunar.Scripting
                 {
                     switch (n)
                     {
+                        case { NodeType: XmlNodeType.Element, Name: "Title" }:
+                        {
+                            Window.Title = n.InnerText;
+                            break;
+                        }
+                        case { NodeType: XmlNodeType.Element, Name: "Icon" }:
+                        {
+                            var iconPath = (n.Attributes["Path"]).Value;
+                            var iconUri = new LunarURI(iconPath);
+                            Window.SetIcon(iconUri.ActualPath);
+                            break;
+                        }
                         case { NodeType: XmlNodeType.Element, Name: "Content" }:
                         {
                             foreach (XmlNode nn in n.ChildNodes)
