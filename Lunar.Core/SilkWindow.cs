@@ -9,6 +9,7 @@ using SkiaSharp;
 using System.Net.Mime;
 using Exception = System.Exception;
 using IWindow = Silk.NET.Windowing.IWindow;
+using MouseButton = Lunar.Native.MouseButton;
 namespace Lunar
 {
     public class SilkWindow : Window
@@ -97,10 +98,30 @@ namespace Lunar
             {
                 mouse.MouseMove += (mouse1, vector2) =>
                 {
-                    MouseX = (int)vector2.X;
-                    MouseY = (int)vector2.Y;
                     var ev = new MouseEvent();
-                    Control.OnMouseMove(ref ev, MouseX, MouseY);
+                    Control.OnMouseMove(ref ev, vector2);
+                };
+
+                mouse.MouseDown += (mouse1, button) =>
+                {
+                    MouseX = (int)mouse1.Position.X;
+                    MouseY = (int)mouse1.Position.Y;
+                    var ev = new MouseEvent();
+                    Control.OnMouseButton(ref ev, 
+                        (MouseButton)Enum.Parse(typeof(MouseButton), button.ToString()), 
+                        true, 
+                        new Vector2(MouseX, MouseY));
+                };
+
+                mouse.MouseUp += (mouse1, button) =>
+                {
+                    MouseX = (int)mouse1.Position.X;
+                    MouseY = (int)mouse1.Position.Y;
+                    var ev = new MouseEvent();
+                    Control.OnMouseButton(ref ev,
+                        (MouseButton)Enum.Parse(typeof(MouseButton), button.ToString()),
+                        false,
+                        new Vector2(MouseX, MouseY));
                 };
             }
 
@@ -196,6 +217,10 @@ namespace Lunar
         public override void Close()
         {
             IsRunning = false;
+        }
+        public override void SetIcon(string path)
+        {
+
         }
 
         public void Resized(int w, int h)
