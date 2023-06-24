@@ -29,16 +29,7 @@ namespace Lunar.Controls
 
         private SKColor? color = null;
         public SKColor Color { get => color ?? Window.Application.Theme.Foreground; set => color = value; }
-        // private float fontSize = 16;
-        // public override float FontSize
-        // {
-        //     get => fontSize;
-        //     set
-        //     {
-        //         fontSize = value;
-        //         RecalculateTextBound();
-        //     }
-        // }
+        
         /// <summary>
         /// The text position and size
         /// </summary>
