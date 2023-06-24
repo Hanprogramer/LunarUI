@@ -56,12 +56,13 @@ namespace Lunar.Controls
         {
             //TODO: Implement text alignment
             SKRect size = new();
-            Paint.TextSize = FontSize ?? 16;
+            float fontSize = FontSize ?? 16;
+            Paint.TextSize = fontSize;
             Paint.MeasureText(Text, ref size);
             TextBound.Width = size.Width;
-            TextBound.Height = size.Height;
+            TextBound.Height = fontSize;
             TextBound.X = Position.X + (Size.X / 2.0f) - (size.Width / 2.0f);
-            TextBound.Y = Position.Y + (Size.Y / 2.0f) + (size.Height / 2.0f);
+            TextBound.Y = Position.Y + (Size.Y / 2.0f) + (fontSize / 2.0f);
 
             MinSize = TextBound.Size;
             MinSize = new Vector2(MinSize.X, MinSize.Y + 8);
