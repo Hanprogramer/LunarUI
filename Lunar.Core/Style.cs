@@ -5,7 +5,7 @@ namespace Lunar.Native
 {
     public struct Style
     {
-        private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object?> _properties = new Dictionary<string, object?>();
         private readonly Dictionary<string, Style> _states = new Dictionary<string, Style>();
         public string? ClassName = null;
         public string? Target = null;
@@ -13,7 +13,7 @@ namespace Lunar.Native
         {
         }
 
-        public void Set(string prop, object value)
+        public void Set(string prop, object? value)
         {
             _properties[prop] = value;
         }
@@ -38,6 +38,11 @@ namespace Lunar.Native
                 return result;
             return null;
         }
+        public bool HasState(string state)
+        {
+            return _states.ContainsKey(state);
+        }
+        
         public void Apply(in Control control)
         {
             if (Target != null)
@@ -46,7 +51,14 @@ namespace Lunar.Native
             if (ClassName != null)
                 if (!control.ClassList.Contains(ClassName))
                     return;
-            apply(control, control.GetType());
+            
+            if(control.State != "" && HasState(control.State))
+                GetStateOrNull(control.State)?.Apply(control);
+            
+            else
+            {
+                apply(control, control.GetType());
+            }
         }
 
         private void apply(in Control control, Type type)

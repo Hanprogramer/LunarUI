@@ -1,18 +1,18 @@
 ﻿using Lunar.Controls;
-using Lunar.Core;
 using Lunar.Native;
-using SkiaSharp;
 using System.Xml;
 namespace Lunar.Scripting
 {
     public class XmlScriptingFeature : WindowFeature
     {
         private XmlDocument doc;
-        private ControlRegistry _registry;
+        private XmlComponent root;
+        public ControlRegistry ControlRegistry;
         private readonly FileSystemWatcher _watcher;
         private bool isParsing = false;
+        public string WorkingDirectory = "";
 
-        private StyleParser StyleParser;
+        public StyleParser StyleParser;
 
         public XmlScriptingFeature(Window window) : base(window)
         {
@@ -22,8 +22,8 @@ namespace Lunar.Scripting
         {
             base.OnWindowReady();
 
-            _registry = (ControlRegistry)Window.Application.GetControlRegistry();
-            StyleParser = new StyleParser(_registry);
+            ControlRegistry = (ControlRegistry)Window.Application.GetControlRegistry();
+            StyleParser = new StyleParser(ControlRegistry);
             var path = Window.Path.ActualPath;
             var lastRead = DateTime.MinValue;
             _watcher.Filter = "*.xml";
@@ -56,6 +56,7 @@ namespace Lunar.Scripting
         /// <param name="path">Absolute path to the file</param>
         private async Task ParseFile(string path)
         {
+            WorkingDirectory = Path.GetFullPath(path);
             isParsing = true;
             if (!path.EndsWith(".xml"))
             {
@@ -111,203 +112,27 @@ namespace Lunar.Scripting
         /// </summary>
         private void GenerateTree()
         {
-            var cont = Window.Control as StackContainer;
+            var cont = (Window.Control as StackContainer)!;
             cont.ClearChildren();
             Window.Styles.Clear();
-            foreach (XmlNode node in doc.ChildNodes)
-            {
-                if (node.NodeType != XmlNodeType.Element || node.Name != "Template")
-                    continue;
-                foreach (XmlNode n in node.ChildNodes)
-                {
-                    switch (n)
-                    {
-                        case { NodeType: XmlNodeType.Element, Name: "Page" }:
-                        {
-                            foreach (XmlNode c in n.ChildNodes)   
-                            {
-                                switch (c)
-                                {
-                                    case { NodeType: XmlNodeType.Element, Name: "Title" }:
-                                    {
-                                        Window.Title = c.InnerText;
-                                        break;
-                                    }
-                                    case { NodeType: XmlNodeType.Element, Name: "Icon" }:
-                                    {
-                                        var iconPath = (c.Attributes["Path"]).Value;
-                                        var iconUri = new LunarURI(iconPath);
-                                        Window.SetIcon(iconUri.ActualPath);
-                                        break;
-                                    }
-                                }
-                            }   
-                            break;
-                        }
-                        case { NodeType: XmlNodeType.Element, Name: "Content" }:
-                        {
-                            foreach (XmlNode nn in n.ChildNodes)
-                            {
-                                ParseContentNode(nn, Window.Control);
-                            }
-                            break;
-                        }
-                        case { NodeType: XmlNodeType.Element, Name: "Styles" }:
-                        {
-                            foreach (XmlNode nn in n.ChildNodes)
-                            {
-                                ParseStyleNodes(nn, in Window.Styles);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            //TODO: Parse Styles and Scripts as well
+            root = XmlComponent.FromDocument(doc,this);
+            cont.AddChild(root.Instantiate(null));
         }
-        /// <summary>
-        /// Parse the node tree to a tree filled with controls
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="parent"></param>
-        private void ParseContentNode(XmlNode node, in Control parent)
+
+        public static XmlDocument LoadDocument(string path)
         {
-            if (node.NodeType != XmlNodeType.Element)
-                return;
-            if (!_registry.HasControl(node.Name))
-                return;
-            if (parent is not MultiChildContainer m)
-                return;
-            var control = _registry.GetControl(node.Name);
-            var constructor = control.GetConstructor(new Type[]
+            var doc = new XmlDocument();
+            string content;
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sr = new StreamReader(stream))
             {
-                typeof(Window)
-            });
-            var instance = (Control)constructor.Invoke(new object[]
-            {
-                Window
-            });
-            m.AddChild(instance);
-
-            // Set the attributes
-            if (node.Attributes != null)
-            {
-                foreach (XmlAttribute attr in node.Attributes)
-                {
-                    if (attr.Name == "Class")
-                        foreach (var cls in attr.Value.Split(" "))
-                        {
-                            instance.ClassList.Add(cls);
-                        }
-                    var prop = control.GetProperty(attr.Name);
-                    if (prop == null || attr.Value == "")
-                        continue;
-                    if (prop.PropertyType.IsEnum)
-                    {
-                        if (Enum.TryParse(prop.PropertyType, attr.Value, out var result))
-                            prop.SetValue(instance, result);
-                    }
-                    else if (prop.PropertyType == typeof(float))
-                    {
-                        if (float.TryParse(attr.Value, out var f))
-                            prop.SetValue(instance, f);
-                    }
-                    else if (prop.PropertyType == typeof(LunarURI))
-                    {
-                        prop.SetValue(instance, new LunarURI(attr.Value));
-                    }
-                    else if (prop.PropertyType == typeof(Spacing?))
-                    {
-                        prop.SetValue(instance, Spacing.Parse(attr.Value));
-                    }
-                    else if (prop.PropertyType == typeof(Int32))
-                    {
-                        prop.SetValue(instance, Int32.Parse(attr.Value));
-                    }
-                    else if (prop.PropertyType == typeof(Fill))
-                    {
-                        Fill val = StyleParser.ParseColor(attr.Value);
-                        prop.SetValue(instance, val);
-                    }
-                    else if (prop.PropertyType == typeof(Spacing))
-                    {
-                        prop.SetValue(instance, Spacing.Parse(attr.Value));
-                    }
-                    else
-                        prop.SetValue(instance, attr.Value);
-                    // TODO: Better error handling
-                }
+                content = sr.ReadToEnd();
             }
-
-            if (!node.HasChildNodes)
-                return;
-            if (instance is MultiChildContainer)
-            {
-                foreach (XmlNode c in node.ChildNodes)
-                {
-                    ParseContentNode(c, instance);
-                }
-            }
-            else if (instance is SingleChildContainer)
-            {
-                if (node.ChildNodes.Count == 1)
-                    ParseContentNode(node.FirstChild, instance);
-                else
-                    throw new Exception($"{node.Name} is a SingleChildContainer and can only has one child or no child at all");
-            }
+            if (content == "")
+                throw new Exception("File is empty");
+            
+            doc.LoadXml(content);
+            return doc;
         }
-
-        private void ParseStyleNodes(XmlNode node, in List<Style> styles)
-        {
-            var style = new Style();
-            foreach (XmlAttribute attr in node.Attributes)
-            {
-                if (attr.Name == "Class")
-                    style.ClassName = attr.Value;
-                if (attr.Name == "Target")
-                    style.Target = attr.Value;
-            }
-            if (node.HasChildNodes)
-            {
-                foreach (XmlNode childNode in node.ChildNodes)
-                {
-                    ParseStyleProperties(childNode, ref style);
-                }
-            }
-            styles.Add(style);
-        }
-
-        private void ParseStyleProperties(XmlNode node, ref Style style)
-        {
-            if (node.Name == "States")
-            {
-                // Parse States
-                foreach (XmlNode childNode in node.ChildNodes)
-                {
-                    string? name = null;
-                    if (childNode.Attributes == null)
-                        throw new Exception("Node states must have at least a 'Name' attribute");
-                    foreach (XmlAttribute attr in childNode.Attributes)
-                    {
-                        if (attr.Name == "Name")
-                            name = attr.Value;
-                    }
-                    if (name == null)
-                        throw new Exception("Node states must have at least a 'Name' attribute");
-                    var state = new Style();
-                    foreach (XmlNode childNodeChildNode in childNode.ChildNodes)
-                    {
-                        ParseStyleProperties(childNodeChildNode, ref state);
-                    }
-                    style.AddState(name, state);
-                }
-            }
-            else
-            {
-                // Parse Regular Properties
-                style.Set(node.Name, StyleParser.ParseValueNode(node));
-            }
-        }
-
     }
 }

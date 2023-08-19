@@ -140,6 +140,18 @@ namespace Lunar.Core
                 value.X - Padding.Width - Margin.Width,
                 value.Y - Padding.Height - Margin.Height);
         }
+        /// <summary>
+        /// Size of the control including padding and margins.
+        /// </summary>
+        public Vector2 MeasuredMinSize
+        {
+            get => new Vector2(
+                MinSize.X + Padding.Width + Margin.Width,
+                MinSize.Y + Padding.Height + Margin.Height);
+            set => MinSize = new Vector2(
+                value.X - Padding.Width - Margin.Width,
+                value.Y - Padding.Height - Margin.Height);
+        }
 
         /// <summary>
         /// Control's Weight for sizing inside of containers
@@ -166,7 +178,8 @@ namespace Lunar.Core
 
         
         public TextAlign TextAlign { get; set; }
-
+        
+        public IComposedControl? ComposableParent = null;
         #endregion
 
         public Control(Window window)
@@ -196,6 +209,8 @@ namespace Lunar.Core
                     style.GetStateOrNull(State)?.Apply(this);
                 }
             }
+            ComposableParent?.ApplyStyles(this);
+            
             Style?.Apply(this);
             if (Style != null && state != "")
             {
@@ -312,6 +327,16 @@ namespace Lunar.Core
         public bool HasClass(string val)
         {
             return ClassList.Contains(val);
+        }
+        
+        /// <summary>
+        /// Gets a property of a control.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public virtual object? GetProperty(string name)
+        {
+            return ComposableParent?.GetProperty(name);
         }
     }
 }

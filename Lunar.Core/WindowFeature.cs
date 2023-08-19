@@ -6,7 +6,7 @@ namespace Lunar.Native
     /// </summary>
     public class WindowFeature
     {
-        protected Window Window { get; set; }
+        public Window Window { get; set; }
         public WindowFeature(Window window)
         {
             Window = window;

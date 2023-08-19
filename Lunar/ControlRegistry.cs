@@ -25,6 +25,12 @@ namespace Lunar.Controls
                 return value;
             throw new Exception("Control not found: " + name);
         }
+        public Type? GetControlOrNull(string name)
+        {
+            if (Controls.TryGetValue(name, out var value))
+                return value;
+            return null;
+        }
 
         public bool HasControl(string name)
         {

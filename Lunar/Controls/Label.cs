@@ -15,7 +15,15 @@ namespace Lunar.Controls
             get => text;
             set
             {
-                text = value;
+                
+                // if (value.StartsWith("@"))
+                // {
+                //     // Parse in a IPropertySource property
+                //     var propName = value.Substring(1);
+                //     text = (string)GetProperty(propName) ?? "";
+                // }
+                // else
+                    text = value;
                 RecalculateTextBound();
             }
         }
