@@ -155,6 +155,8 @@ namespace Lunar.Scripting
                 return val;
             if (type == typeof(Spacing))
                 return Spacing.Parse(val);
+            if (type.IsEnum)
+                return Enum.Parse(type, val);
             return null;
         }
 

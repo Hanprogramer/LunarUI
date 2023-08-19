@@ -92,7 +92,7 @@ namespace Lunar.Controls
             base.OnRender(canvas);
             if (_rect == null) RecalculateRect();
             int save = canvas.Save();
-            canvas.ClipRect(new SKRect(Position.X, Position.Y, Size.X, Size.Y));
+            canvas.ClipRect(new SKRect(Position.X, Position.Y, Position.X + Size.X, Position.Y + Size.Y));
             if (_bitmap != null)
             {
                 canvas.DrawBitmap(_bitmap, new SKRect(_rect.X, _rect.Y, _rect.X + _rect.Width, _rect.Y + _rect.Height));

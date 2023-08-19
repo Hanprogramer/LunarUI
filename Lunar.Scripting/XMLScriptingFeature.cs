@@ -122,16 +122,26 @@ namespace Lunar.Scripting
                 {
                     switch (n)
                     {
-                        case { NodeType: XmlNodeType.Element, Name: "Title" }:
+                        case { NodeType: XmlNodeType.Element, Name: "Page" }:
                         {
-                            Window.Title = n.InnerText;
-                            break;
-                        }
-                        case { NodeType: XmlNodeType.Element, Name: "Icon" }:
-                        {
-                            var iconPath = (n.Attributes["Path"]).Value;
-                            var iconUri = new LunarURI(iconPath);
-                            Window.SetIcon(iconUri.ActualPath);
+                            foreach (XmlNode c in n.ChildNodes)   
+                            {
+                                switch (c)
+                                {
+                                    case { NodeType: XmlNodeType.Element, Name: "Title" }:
+                                    {
+                                        Window.Title = c.InnerText;
+                                        break;
+                                    }
+                                    case { NodeType: XmlNodeType.Element, Name: "Icon" }:
+                                    {
+                                        var iconPath = (c.Attributes["Path"]).Value;
+                                        var iconUri = new LunarURI(iconPath);
+                                        Window.SetIcon(iconUri.ActualPath);
+                                        break;
+                                    }
+                                }
+                            }   
                             break;
                         }
                         case { NodeType: XmlNodeType.Element, Name: "Content" }:
@@ -207,6 +217,19 @@ namespace Lunar.Scripting
                         prop.SetValue(instance, new LunarURI(attr.Value));
                     }
                     else if (prop.PropertyType == typeof(Spacing?))
+                    {
+                        prop.SetValue(instance, Spacing.Parse(attr.Value));
+                    }
+                    else if (prop.PropertyType == typeof(Int32))
+                    {
+                        prop.SetValue(instance, Int32.Parse(attr.Value));
+                    }
+                    else if (prop.PropertyType == typeof(Fill))
+                    {
+                        Fill val = StyleParser.ParseColor(attr.Value);
+                        prop.SetValue(instance, val);
+                    }
+                    else if (prop.PropertyType == typeof(Spacing))
                     {
                         prop.SetValue(instance, Spacing.Parse(attr.Value));
                     }

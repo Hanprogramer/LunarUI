@@ -12,7 +12,8 @@
         }
         public override double GetScaling()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return 1.5;
         }
     }
 }

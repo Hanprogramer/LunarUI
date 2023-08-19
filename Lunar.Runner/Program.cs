@@ -2,10 +2,10 @@
 
 using Lunar;
 using Lunar.Scripting;
-var projectDir = @"D:\Programming\C#\Lunar\TestProject";
+var projectDir = @"D:\Programming\C#\Lunar\CoreLauncher";
 Console.WriteLine("Running test project...");
 
-var app = new Application(projectDir, "TestProject");
+var app = new Application(projectDir, "CoreLauncher");
 app.AddWindowFeature<XmlScriptingFeature>();
 app.AddFeature(new V8ScriptingFeature());
 app.CreateRootWindow();

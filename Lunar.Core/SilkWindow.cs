@@ -54,8 +54,7 @@ namespace Lunar
         private SKSurface skSurface;
 
         public bool IsMultiThreaded { get; private set; }
-
-
+        private Cursor _lastCursor = Cursor.Arrow;
 
         public SilkWindow(IApplication application, string path, string title, int w = 800, int h = 600, bool isMultiThreaded = false) : base(application)
         {
@@ -95,12 +94,13 @@ namespace Lunar
             IsReady = true;
             OnReady();
 
-            var input = _window.CreateInput();
-            foreach (var mouse in input.Mice)
+            _input = _window.CreateInput();
+            foreach (var mouse in _input.Mice)
             {
                 mouse.MouseMove += (mouse1, vector2) =>
                 {
                     var ev = new MouseEvent();
+                    SetCursor(Cursor.Arrow);
                     Control.OnMouseMove(ref ev, vector2);
                 };
 
@@ -238,6 +238,17 @@ namespace Lunar
             });
             file.Close();
         }
+        public override void SetCursor(Cursor cursor)
+        {
+            if (_lastCursor == cursor)
+                return;
+            
+            _lastCursor = cursor;
+            foreach (var mouse in _input.Mice)
+            {
+                mouse.Cursor.StandardCursor = Enum.Parse<StandardCursor>(cursor.ToString());
+            }
+        }
 
         public void Resized(int w, int h)
         {
@@ -256,6 +267,7 @@ namespace Lunar
 
 
         private static readonly GRGlFramebufferInfo _fbi = new GRGlFramebufferInfo(0, (uint)InternalFormat.Rgba8);
+        private IInputContext _input;
         private void ResizeSkia()
         {
             if (skCtx == null)

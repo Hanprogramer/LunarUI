@@ -1,6 +1,6 @@
 <Template>
     <Title>Welcome to LunarUI!</Title>
-    <Icon Path="res://assets/win/icon.ico" OS="Windows"/>
+    <Icon Path="res://assets/icon.png" OS="Windows"/>
     <Includes>
         <Script Src="./index.js" />
         <Xml Src="./componentA.xml" />
@@ -11,9 +11,9 @@
             CrossAxisAlignment="Fill" Weight="1">
             <Image Source="res://assets/LunarUI logo.svg" ImageFit="Fit" Class="MainTitle" Weight="1" />
             <Label Text="Welcome to Lunar UI. A truly cross platform, fast, modern UI framework"
-                Class="MainSubTitle" Weight="0.3" />
-            <Label Text="Supports hot reload"
-                Class="MainSubTitle" Weight="0.3" />
+                Class="MainSubTitle" Weight="0" />
+            <Label Text="Supports hot reload too!"
+                Class="MainSubTitle" Weight="0" />
             <BoxContainer Class="Debug" MainAxisAlignment="Center" CrossAxisAlignment="Center"
                 Weight="1">
                 <Label Text="Documentation" OnClick="onTextClicked" Class="MainButton" />
@@ -41,6 +41,7 @@
             <Padding>16</Padding>
             <Margin>8</Margin>
             <BorderRadius>8</BorderRadius>
+            <Cursor>Hand</Cursor>
             <States>
                 <State Name="Hover">
                     <Background>c27cff</Background>

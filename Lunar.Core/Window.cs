@@ -71,5 +71,6 @@ namespace Lunar
         }
 
         public abstract void SetIcon(string path);
+        public abstract void SetCursor(Cursor cursor);
     }
 }

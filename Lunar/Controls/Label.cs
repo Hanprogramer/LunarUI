@@ -5,7 +5,8 @@ namespace Lunar.Controls
 {
     public class Label : Control
     {
-        public TextAlign TextAlign { get; set; } = TextAlign.Center;
+        private TextAlign _textAlign { get; set; } = TextAlign.Center;
+        public TextAlign TextAlign { get => _textAlign; set { _textAlign = value; RecalculateTextBound(); } }
         public ParagraphAlign ParagraphAlign { get; set; } = ParagraphAlign.Center;
 
         private string text = "";
@@ -29,7 +30,7 @@ namespace Lunar.Controls
 
         private SKColor? color = null;
         public SKColor Color { get => color ?? Window.Application.Theme.Foreground; set => color = value; }
-        
+
         /// <summary>
         /// The text position and size
         /// </summary>
@@ -39,7 +40,7 @@ namespace Lunar.Controls
         {
             base.OnRender(canvas);
             Paint.Color = Foreground ?? Window.Application.Theme.Foreground;
-            Font.Size = FontSize ?? 16;
+            Font.Size = (FontSize ?? 16);
             canvas.DrawText(Text, TextBound.X, TextBound.Y, Font, Paint);
         }
 
@@ -52,8 +53,22 @@ namespace Lunar.Controls
             Paint.MeasureText(Text, ref size);
             TextBound.Width = size.Width;
             TextBound.Height = fontSize;
-            TextBound.X = Position.X + (Size.X / 2.0f) - (size.Width / 2.0f);
-            TextBound.Y = Position.Y + (Size.Y / 2.0f) + (fontSize / 2.0f);
+            
+            if (TextAlign == TextAlign.Center)
+            {
+                TextBound.X = Position.X + (Size.X / 2.0f) - (size.Width / 2.0f);
+                TextBound.Y = Position.Y + (Size.Y / 2.0f) + (fontSize / 2.0f);
+            }
+            else if (TextAlign == TextAlign.Left)
+            {
+                TextBound.X = Position.X;
+                TextBound.Y = Position.Y + (Size.Y / 2.0f) + (fontSize / 2.0f);
+            }
+            else if (TextAlign == TextAlign.Right)
+            {
+                TextBound.X = Position.X + Size.X - TextBound.Width;
+                TextBound.Y = Position.Y + (Size.Y / 2.0f) + (fontSize / 2.0f);
+            }
 
             MinSize = TextBound.Size;
             MinSize = new Vector2(MinSize.X, MinSize.Y + 8);
@@ -72,6 +87,7 @@ namespace Lunar.Controls
         {
             base.SetFontSize(value);
             RecalculateTextBound();
+            
         }
     }
 }

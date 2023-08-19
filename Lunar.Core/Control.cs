@@ -10,6 +10,7 @@ namespace Lunar.Core
     public class Control
     {
         protected Window Window { set; get; }
+        public Cursor Cursor { get; set; } = Cursor.Arrow;
 
         #region Properties
 
@@ -41,6 +42,11 @@ namespace Lunar.Core
                 OnResized(value);
             }
         }
+
+        public int Width { get => (int)Size.X; set => Size = Size.WithX(value); }
+        public int Height { get => (int)Size.Y; set => Size = Size.WithY(value); }
+        public int MinWidth { get => (int)MinSize.X; set => MinSize = MinSize.WithX(value); }
+        public int MinHeight { get => (int)MinSize.Y; set => MinSize = MinSize.WithY(value); }
 
         /// <summary>
         /// Control's Minimum Size
@@ -118,6 +124,7 @@ namespace Lunar.Core
                 ApplyStyles();
             }
         }
+        
 
         public ObservableCollection<string> ClassList = new ObservableCollection<string>();
 
@@ -155,6 +162,10 @@ namespace Lunar.Core
                 ApplyStyles();
             }
         }
+        
+
+        
+        public TextAlign TextAlign { get; set; }
 
         #endregion
 
@@ -250,6 +261,7 @@ namespace Lunar.Core
             {
                 if (State == "")
                     State = "Hover";
+                Window.SetCursor(Cursor);
                 e.Handled = true;
             }
             else
