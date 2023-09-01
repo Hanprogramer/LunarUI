@@ -1,10 +1,13 @@
 ﻿using Lunar.Core;
 using Lunar.Native;
+using Silk.NET.SDL;
+using Cursor = Lunar.Native.Cursor;
 namespace Lunar
 {
     public abstract class Window
     {
         public IApplication Application { get; set; }
+        public String? Icon { get; set; }
         /// <summary>
         /// Window's Current Filepath
         /// </summary>
@@ -12,6 +15,7 @@ namespace Lunar
         public Control Control { get; set; }
         public Vector2 Size { get; set; }
         public Vector2 Position { get; set; }
+        public float DpiScaling { get; set; } = 1f;
         public abstract string Title { get; set; }
         public bool IsInitialized { get; }
         public bool IsClosing { get; }
@@ -33,6 +37,11 @@ namespace Lunar
         public void OnReady()
         {
             Ready?.Invoke();
+            var icon = Icon ?? Application.Icon;
+            if (icon != null)
+            {
+                SetIcon(System.IO.Path.Join(Application.Path, icon));
+            }
         }
 
         public void OnClosing()

@@ -65,5 +65,21 @@ namespace Lunar.Native.Win32
             UpdateWindow(window.handle);
             MoveWindow(window.handle, (int)window.Position.X, (int)window.Position.Y, (int)window.Size.X, (int)window.Size.Y, true);
         }
+        
+        [DllImport("user32.dll")]
+        static extern int GetDpiForWindow(IntPtr hWnd);
+
+        public static float GetDisplayScaleFactor(IntPtr windowHandle)
+        {
+            try
+            {
+                return GetDpiForWindow(windowHandle) / 96f;
+            }
+            catch
+            {
+                // Or fallback to GDI solutions above
+                return 1;
+            }
+        }
     }
 }

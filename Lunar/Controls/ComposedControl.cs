@@ -1,6 +1,7 @@
 ﻿using Lunar.Controls;
 using Lunar.Core;
 using Lunar.Native;
+using Lunar.Scripting;
 namespace Lunar.Controls
 {
     public enum ComposedControlPropertyType
@@ -31,6 +32,8 @@ namespace Lunar.Controls
     {
         public Dictionary<string, ComposedControlProperty> Properties;
         public List<Style> Styles;
+
+        public ComposedControlScript? Script;
         
         public ComposedControl(Window window) : base(window)
         {

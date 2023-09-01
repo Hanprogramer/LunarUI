@@ -11,17 +11,19 @@ namespace Lunar.Scripting
         private readonly FileSystemWatcher _watcher;
         private bool isParsing = false;
         public string WorkingDirectory = "";
+        public V8ScriptingFeature? V8;
 
         public StyleParser StyleParser;
 
         public XmlScriptingFeature(Window window) : base(window)
         {
             _watcher = new FileSystemWatcher();
+            V8 = window.Application.GetApplicationFeature<V8ScriptingFeature>();
         }
         public override void OnWindowReady()
         {
             base.OnWindowReady();
-
+            
             ControlRegistry = (ControlRegistry)Window.Application.GetControlRegistry();
             StyleParser = new StyleParser(ControlRegistry);
             var path = Window.Path.ActualPath;
@@ -48,6 +50,7 @@ namespace Lunar.Scripting
             _watcher.IncludeSubdirectories = true;
             _watcher.EnableRaisingEvents = true;
             ParseFile(path);
+            
         }
 
         /// <summary>

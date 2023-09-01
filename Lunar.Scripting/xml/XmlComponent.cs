@@ -1,6 +1,7 @@
 ﻿using Lunar.Controls;
 using Lunar.Core;
 using Lunar.Native;
+using Lunar.Scripting.js;
 using Microsoft.ClearScript.Util.Web;
 using System.Xml;
 namespace Lunar.Scripting
@@ -292,7 +293,21 @@ namespace Lunar.Scripting
                 }
             }
 
-            // TODO: Implement script node
+            if (_scriptNode != null)
+            {
+                if (Scripting.V8 != null)
+                {
+                    // TODO: Add source file and class name
+                    var script = new V8ComposedControlScript(Scripting.V8, baseControl, "", "");
+                    baseControl.Script = script;
+                    script.Load("", _scriptNode.InnerText);
+                }
+                else
+                {
+                    throw new Exception("You have to add V8ScriptingFeature to the window in order to use JS scripting!");
+                }
+            }
+
             return baseControl;
         }
 

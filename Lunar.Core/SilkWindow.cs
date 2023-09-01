@@ -75,7 +75,7 @@ namespace Lunar
             _window.Update += Update;
             _window.Render += Render;
             _window.Closing += Dispose;
-            _window.Resize += vector2D => Resized(vector2D.X, vector2D.Y);
+            _window.FramebufferResize += vector2D => Resized(vector2D.X, vector2D.Y);
             // Control = new StackContainer();
         }
 
@@ -101,7 +101,7 @@ namespace Lunar
                 {
                     var ev = new MouseEvent();
                     SetCursor(Cursor.Arrow);
-                    Control.OnMouseMove(ref ev, vector2);
+                    Control.OnMouseMove(ref ev, vector2 / DpiScaling);
                 };
 
                 mouse.MouseDown += (mouse1, button) =>
@@ -112,7 +112,7 @@ namespace Lunar
                     Control.OnMouseButton(ref ev,
                         (MouseButton)Enum.Parse(typeof(MouseButton), button.ToString()),
                         true,
-                        new Vector2(MouseX, MouseY));
+                        new Vector2(MouseX, MouseY) / DpiScaling);
                 };
 
                 mouse.MouseUp += (mouse1, button) =>
@@ -123,7 +123,7 @@ namespace Lunar
                     Control.OnMouseButton(ref ev,
                         (MouseButton)Enum.Parse(typeof(MouseButton), button.ToString()),
                         false,
-                        new Vector2(MouseX, MouseY));
+                        new Vector2(MouseX, MouseY) / DpiScaling);
                 };
             }
 
@@ -174,8 +174,11 @@ namespace Lunar
             {
                 InitSkia();
                 gl.Clear(ClearBufferMask.ColorBufferBit);
+                var count = skSurface.Canvas.Save();
+                skSurface.Canvas.Scale(DpiScaling);
                 skSurface.Canvas.DrawColor(Application.Theme.Background);
                 Control.OnRender(skSurface.Canvas);
+                skSurface.Canvas.RestoreToCount(count);
                 // Run window features
                 foreach (var f in Features)
                     f.OnWindowRender(skSurface.Canvas);
@@ -260,7 +263,7 @@ namespace Lunar
                 if (!IsMultiThreaded)
                     _window.DoRender();
 
-                Control.Size = Size;
+                Control.Size = Size / DpiScaling;
                 Control.Position = Vector2.Zero;
             }
         }

@@ -7,9 +7,6 @@ namespace Lunar;
 
 public class Application : IApplication
 {
-    public String Name { get; set; }
-    public String? Icon { get; set; }
-    public String Path { get; private set; }
     public bool IsRunning = false;
     public NativeContext NativeContext;
 
@@ -18,6 +15,7 @@ public class Application : IApplication
     public List<Type> WindowFeatures = new();
 
     public ControlRegistry ControlRegistry = new ControlRegistry();
+    public ProjectSettings Settings;
     public Application(string path, string name, string? icon = null)
     {
         Name = name;
@@ -26,6 +24,15 @@ public class Application : IApplication
         Windows = new List<Window>();
         Path = path;
 
+        var settingsPath = System.IO.Path.Join(path, "lunarproject.json");
+        if (File.Exists(settingsPath))
+        {
+            Settings = ProjectSettings.Load(settingsPath) ?? new ProjectSettings();
+            Icon = Settings.Icon;
+            Name = Settings.Title;
+        }
+        else
+            throw new Exception("Can't find lunarproject.json on " + path);
         LunarURI.SetRootPath(path);
 
         if (OperatingSystem.IsWindows())
@@ -44,15 +51,23 @@ public class Application : IApplication
         }
     }
 
-    public void AddFeature(ApplicationFeature feature)
+    public string? Icon { get; set; }
+    public string Name { get; set; }
+    public string Path { get; set; }
+    public void AddApplicationFeature(ApplicationFeature feature)
     {
         Features.Add(feature);
     }
 
-    public void RemoveFeature(ApplicationFeature feature)
+    public void RemoveApplicationFeature(ApplicationFeature feature)
     {
         Features.Remove(feature);
     }
+    public T? GetApplicationFeature<T>() where T : ApplicationFeature
+    {
+        return Features.OfType<T>().FirstOrDefault();
+    }
+    
     public IControlRegistry GetControlRegistry()
     {
         return ControlRegistry;
