@@ -8,10 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Silk.NET" Version="2.17.1" />
-      <PackageReference Include="SkiaSharp" Version="2.88.3" />
-      <PackageReference Include="StbImageSharp" Version="2.27.13" />
-      <PackageReference Include="Svg.Skia" Version="0.6.0-preview8.2" />
+      <PackageReference Include="Silk.NET" Version="2.21.0" />
+      <PackageReference Include="SkiaSharp" Version="2.88.8" />
+      <PackageReference Include="StbImageSharp" Version="2.27.14" />
+      <PackageReference Include="Svg.Skia" Version="2.0.0" />
     </ItemGroup>
 
 </Project>
